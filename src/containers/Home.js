@@ -1,0 +1,31 @@
+import React from 'react';
+import styled from 'styled-components';
+import btn5minute from '../icons/btn-5-minute.png';
+import btnLetsTalk from '../icons/btn-lets-talk.png';
+
+const Container = styled.div`
+  max-width: 800px;
+  display: block;
+  padding: 8px;
+  min-height: 100vh;
+  background: #FFC691;
+`
+const BtnImage = styled.div`
+  box-sizing: border-box;
+  background: ${({imgURL}) => imgURL ? `url(${imgURL})` : '#CCC'};
+  background-size: contain;
+  width: 100%;
+  min-height: 110px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+`;
+
+export const Home = () => (
+  <Container>
+  <BtnImage imgURL={btn5minute} /> <br />
+  <BtnImage imgURL={btnLetsTalk} />
+  </Container>
+);
