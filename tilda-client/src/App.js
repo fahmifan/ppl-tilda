@@ -6,6 +6,7 @@ import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 import {
   Home,
   Profile,
+  Speech,
 } from './containers'
 
 const AppBar = styled.div`
@@ -51,6 +52,7 @@ class App extends Component {
       <Router>
         <AppBar>TILDA</AppBar>
         <Route path='/profile' component={Profile} />
+        <Route path='/speech' component={Speech} />
         <Route path='/' exact component={Home} />
         <BottomNav>
           <Link to='/'><BtnBotNav>Home</BtnBotNav></Link>
