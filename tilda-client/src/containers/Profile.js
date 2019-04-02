@@ -1,41 +1,83 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import pictHolder from '../icons/profil--pict-malik.png'
+import { axios } from '../utils';
+
+// import pictHolder from '../icons/profil--pict-malik.png'
 
 const ProfilePict = styled.div`
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
-  background: ${({imgURL}) => imgURL ? `url(${imgURL})` : '#ccc'};
+  width: 128px;
+  height: 128px;
+  border: 0px solid black;
+  background: ${({imgURL}) => imgURL ? `url(${imgURL})` : '#222'};
   background-size: cover;
   background-position-x: -5px;
   border-radius: 100%;
   margin: auto;
+  /* box-shadow: 4px 4px 8px 2px rgba(85,85,85,1); */
 `
 
 const Desc = styled.div`
-  width: 300px;
+  min-width: 250px;
   height: 200px;
   background: #fff;
+  /* background: #FFC691; */
   margin: auto;
-  padding: 16px;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-weight: bold;
+  /* font-weight: bold; */
+  border-radius: 8px;
+  /* box-shadow: 4px 4px 8px 2px rgba(85,85,85,1); */
 `
 
+const Container = styled.div`
+  background: #FFC691;
+  /* background: #fff; */
+  min-height: 100vh;
+`;
+
 export const Profile = class ProfileComp extends React.Component {  
+  state = {
+    userInfo: {
+      name: '',
+      email: '',
+      telp: '',
+      pictURL: '',
+    },   
+  }
+
+  componentDidMount() {
+    this.getUser();
+  }
+
+  getUser = async () => {
+    try {
+      const { data } = await axios.get('/users/1');
+      this.setState({
+        userInfo: data,
+      })
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
   render() {
-    return <div style={{ background: '#FFC691', minHeight: '100vh' }}>
+    const { userInfo } = this.state;
+
+    return <Container>
       <br />
-      <ProfilePict imgURL={pictHolder}></ProfilePict> 
+      <ProfilePict imgURL={userInfo.pictURL}></ProfilePict> 
+      <br />
       <Desc>
-        <p>Nama: Malik Zulfikar</p>
-        <p>Email: malik@gmail.com</p>
-        <p>Telp: +62 822 123 123</p>
+        <p>Nama: {userInfo.name}</p>
+        <p>Email: {userInfo.email}</p>
+        <p>Telp: {userInfo.telp}</p>
       </Desc>
-    </div>
+    </Container>
   }
 } 

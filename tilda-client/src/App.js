@@ -34,6 +34,10 @@ const BottomNav = styled.div`
 const BtnBotNav = styled.button`
   margin-left: 16px;
   margin-right: 16px;
+  border: 0px;
+  border-radius: 4px;
+  padding: 8px;
+  background: #fff;
 
   &:hover {
     cursor: pointer;

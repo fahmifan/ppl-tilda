@@ -1,6 +1,7 @@
 const express = require('express');
 const { Router } = require('express');
 const path = require('path');
+const faker = require('faker');
 
 const app = express();
 const r = Router();
@@ -8,6 +9,15 @@ const r = Router();
 r.get('/ping', (req, res) => {
   res.status(200).json({ message: 'pong' });
 });
+
+r.get('/users/:id', (req, res) => {
+  res.status(200).json({
+    name: faker.name.findName(),
+    pictURL: faker.internet.avatar(),
+    email: faker.internet.email(),
+    telp: faker.phone.phoneNumber(),
+  });
+})
 
 app.use('/', express.static(path.join(__dirname, '../frontend')));
 app.use('/api', r);
