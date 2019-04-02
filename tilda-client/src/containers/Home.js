@@ -4,11 +4,11 @@ import btn5minute from '../icons/btn-5-minute.png';
 import btnLetsTalk from '../icons/btn-lets-talk.png';
 
 const Container = styled.div`
+  margin: auto;
   max-width: 800px;
   display: block;
   padding: 8px;
   min-height: 100vh;
-  background: #FFC691;
 `
 const BtnImage = styled.div`
   box-sizing: border-box;

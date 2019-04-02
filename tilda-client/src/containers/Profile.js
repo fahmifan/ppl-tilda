@@ -39,6 +39,8 @@ const Container = styled.div`
   background: #FFC691;
   /* background: #fff; */
   min-height: 100vh;
+  max-width: 800px;
+  margin: auto;
 `;
 
 export const Profile = class ProfileComp extends React.Component {  
