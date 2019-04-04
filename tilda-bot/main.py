@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
-import os
-
+import os,os.path
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 
@@ -19,9 +18,10 @@ if (os.environ['TRAIN'] == 'true'):
     # list of conversation in english
     listConvs = [] 
     
+    DIR = './conversation'
     # Seeding listConvs
-    for idx in list(range(6)):
-        fileHandler = open ("./conversation/" + str(idx+1) + ".txt", "r")
+    for file in os.listdir(DIR):
+        fileHandler = open ("./conversation/" + file, "r")
         while True:
             # Get next line from file
             line = fileHandler.readline()
@@ -34,6 +34,8 @@ if (os.environ['TRAIN'] == 'true'):
                 listConvs.append(line)
         # Close Close
         fileHandler.close()
+
+    print(listConvs)
 
     trainer = ListTrainer(bot)
     trainer.train(listConvs)
