@@ -1,0 +1,44 @@
+version: '3'
+services:
+  mongodb:
+    container_name: mongodb
+    image: mvertes/alpine-mongo    
+    ports:
+      - '27017:27017'
+
+  tilda-server:
+    container_name: tilda-server
+    restart: always
+    build: ./tilda-server
+    depends_on: 
+      - mongodb
+    volumes:
+      - ./tilda-server:/usr/app
+    environment:
+      - DB_URL=mongodb://mongodb:27017/tilda
+      - ENV=development
+      - APP_PORT='8080'
+    ports:
+      - '8080:8080'
+
+  tilda-client:
+    container_name: tilda-client
+    build: ./tilda-client
+    depends_on:
+      - tilda-server
+    volumes:
+      - ./tilda-client:/usr/app
+    ports:
+      - '3000:3000'
+
+  proxy:
+    build: ./proxy
+    container_name: proxy
+    depends_on:
+      - tilda-server
+      - tilda-client
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./proxy:/etc/nginx/conf.d/
