@@ -32,6 +32,7 @@ services:
       - '3000:3000'
 
   tilda-bot:
+    restart: always
     container_name: tilda-bot
     image: tilda-bot
     build: ./tilda-bot

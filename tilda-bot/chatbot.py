@@ -2,7 +2,6 @@
 
 import os,os.path
 from chatterbot import ChatBot
-# from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
 # Create a new chat bot named Charlie
