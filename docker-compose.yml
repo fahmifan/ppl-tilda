@@ -2,7 +2,9 @@ version: '3'
 services:
   mongodb:
     container_name: mongodb
-    image: mvertes/alpine-mongo    
+    image: mvertes/alpine-mongo
+    volumes:
+      - tilda-mongo:/data/db
     ports:
       - '27017:27017'
 
@@ -55,3 +57,6 @@ services:
       - 443:443
     volumes:
       - ./proxy:/etc/nginx/conf.d/
+
+volumes:
+  tilda-mongo:
