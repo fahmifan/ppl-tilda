@@ -44,7 +44,7 @@ conversations:
 - - I am working on a project
   - What are you working on?
   - I am baking a cake.
-- - The cake is a lie.
+  - The cake is a lie.
   - No it is not. The cake is delicious.
   - What else is delicious?
   - Nothing
@@ -125,7 +125,7 @@ conversations:
   - I've lost about $200.00 so far today.
   - What about yesterday?
   - Yesterday was the 13th, right?
-  - Yes, that is correct.
+  - Yes, that is correct.good luck with that
   - Yesterday I lost only $5.00.
 - - Hi Mrs. Smith, how has your husband been?
   - He has been well.

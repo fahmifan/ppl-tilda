@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
+import { botAPI } from '../utils';
+
 import wavePng from '../icons/wave.png';
 import micKuningPng from '../icons/mic-kuning.png';
 import micMerahPng from '../icons/mic-merah.png';
@@ -106,7 +108,8 @@ class SpeechComp extends React.Component {
             console.log('event result', event.results[i]);
             final_transcript += event.results[i][0].transcript;
             console.log('final_transcript', final_transcript);
-            this.reply();
+            // this.reply();
+            this.getReply({ message: final_transcript });
           } else {
             interim_transcript += event.results[i][0].transcript;
           }
@@ -135,6 +138,25 @@ class SpeechComp extends React.Component {
       if (this.state.dialogCount > this.state.dialog.length - 1) {
         recognition.stop();
       }
+    }
+  }
+
+  getReply = async ({ message = '' }) => {
+    try {
+      const { data } = await botAPI.post('/talk', {
+        message,
+      })
+
+      console.log('getReply', data);
+
+      const syntch = speechSynthesis;
+      const utterThis = new SpeechSynthesisUtterance(data.reply);
+      utterThis.lang = 'en-US';
+      console.log(data.reply);
+      syntch.speak(utterThis);
+
+    } catch(e) {
+      console.log(e);
     }
   }
 
