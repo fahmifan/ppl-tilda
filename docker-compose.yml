@@ -27,7 +27,7 @@ services:
     depends_on:
       - tilda-server
     volumes:
-      - ./tilda-client:/usr/app
+      - ./tilda-client:/src/app
     ports:
       - '3000:3000'
 
