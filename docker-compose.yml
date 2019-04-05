@@ -31,6 +31,18 @@ services:
     ports:
       - '3000:3000'
 
+  tilda-bot:
+    container_name: tilda-bot
+    image: tilda-bot
+    build: ./tilda-bot
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_DEBUG=1
+    volumes:
+      - "./tilda-bot:/app"
+    ports:
+      - '5000:5000'
+
   proxy:
     build: ./proxy
     container_name: proxy
