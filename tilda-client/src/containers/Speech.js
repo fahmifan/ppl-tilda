@@ -8,8 +8,6 @@ import wavePng from '../icons/wave.png';
 import micKuningPng from '../icons/mic-kuning.png';
 import micMerahPng from '../icons/mic-merah.png';
 
-const initCountDown = 60;
-
 const color = {
   primary: '#FCB316',
   secondary: '#005188',
@@ -58,21 +56,18 @@ margin: auto;
 margin-top: 100px;
 `
 
+const initCountDown = 60;
+
+// eslint-disable-next-line no-undef
+const recognition = new webkitSpeechRecognition()
+
 class SpeechComp extends React.Component {
   state = {
     speech: '',
-    dialogCount: 0,
     countDown: initCountDown,
-    dialog: [
-      'morning, how are you',
-      'do you have some plans for today',
-      'don’t forget eat some breakfast and drink a glass of water, so you don’t get sick',
-      'what time are you coming home',
-      'i see, be carefull on your way home',
-    ],
     isCountStart: false,
     // eslint-disable-next-line no-undef
-    recognition: new webkitSpeechRecognition(),
+    // recognition: new webkitSpeechRecognition(),
   }
 
   speechRecog = () => {
@@ -85,7 +80,7 @@ class SpeechComp extends React.Component {
     } else {
       // eslint-disable-next-line no-undef
       // const recognition = new webkitSpeechRecognition();
-      const { recognition } = this.state;
+      // const { recognition } = this.state;
       recognition.lang = 'en-US'
       recognition.continuous = true
       recognition.maxAlternatives = 1
@@ -124,8 +119,10 @@ class SpeechComp extends React.Component {
       }
 
       recognition.onend = () => {
-        if (this.state.dialogCount > this.state.dialog.length - 1) {
+        if (!this.state.isCountStart) {
           recognition.stop();
+          this.props.history.replace('/');
+          // recognition.abort();
           console.log('recog end');
           this.setState({ dialogCount: 0 });
         } else {
@@ -134,10 +131,6 @@ class SpeechComp extends React.Component {
       }
 
       recognition.start();
-
-      if (this.state.dialogCount > this.state.dialog.length - 1) {
-        recognition.stop();
-      }
     }
   }
 
@@ -167,34 +160,16 @@ class SpeechComp extends React.Component {
   }
 
   handleStop = () => {
-    this.state.recognition.stop();
-    this.setState({ isCountStart: false });
-    this.props.history.replace('/your-point');
-  }
-
-  reply = () => {
-    const { dialog }= this.state;
-
-    const currCount = this.state.dialogCount;
-    const replyWord = dialog[currCount];
-
-    this.setState({ dialogCount: this.state.dialogCount+1 }, () => {
-      // say reply
-      const syntch = speechSynthesis;
-      const utterThis = new SpeechSynthesisUtterance(replyWord);
-      utterThis.lang = 'en-US';
-      console.log(replyWord);
-      syntch.speak(utterThis);
+    this.setState({ isCountStart: false }, () => {
+      console.log('stop recognition')
+      // recognition.abort();
+      recognition.stop();
+      // this.props.history.replace('/your-point');
     });
   }
 
   render() {
-    const { countDown, isCountStart, dialogCount, dialog } = this.state;
-
-    if (dialogCount > dialog.length) {
-      this.state.recognition.stop();
-      this.props.history.replace('/');
-    }
+    const { countDown, isCountStart } = this.state;
 
     if (isCountStart) {
       if (countDown > 0) {
@@ -214,7 +189,7 @@ class SpeechComp extends React.Component {
       {
         !isCountStart 
           ? <StartBtn onClick={() => this.handleStart()} />
-          : <StopBtn />
+          : <StopBtn onClick={() => this.handleStop()} />
       }
       </>
     )

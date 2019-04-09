@@ -6,10 +6,18 @@ from flask import request
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
+db_adapter = 'chatterbot.storage.SQLStorageAdapter'
+db_url='sqlite:///tlida.db'
+try:
+    db_adapter = os.environ['DB_ADAPTER']
+    db_url = os.environ['DB_URL']
+except expression as identifier:
+    pass
+
 bot = ChatBot(
     'Tilda',
-    storage_adapter='chatterbot.storage.SQLStorageAdapter',
-    database_uri='sqlite:///tilda.db',
+    storage_adapter=str(db_adapter),
+    database_uri=str(db_url),
     logic_adapters=[
         {
             'import_path': 'chatterbot.logic.BestMatch',

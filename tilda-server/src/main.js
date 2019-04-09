@@ -3,10 +3,6 @@ const { Router } = require('express');
 const path = require('path');
 const faker = require('faker');
 const mongoose = require('mongoose');
-const simsimi = require('simsimi')({
-  key: '41fa2cec-36c8-494f-af39-57ef035e22cf',
-  api: 'http://sandbox.api.simsimi.com/request.p'
-});
 
 const app = express();
 const r = Router();
@@ -75,14 +71,6 @@ r.get('/users/:id', (req, res) => {
     return res.status(200).json(userInfo);
   })
 })
-
-r.get('/test-bot', (req, res) => {
-  simsimi('halo')
-  .then(response => {
-    console.log('simsimi say:', response); // What's up ?
-    res.status(200).json({ response })
-  });
-});
 
 app.use('/', express.static(path.join(__dirname, '../frontend')));
 app.use('/api', r);
