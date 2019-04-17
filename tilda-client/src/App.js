@@ -7,14 +7,24 @@ import {
   Home,
   Profile,
   Speech,
+  Progress,
 } from './containers'
 
+const theme = {
+  color: {
+    primary: '#FF9800',
+    background: '#F5F5F5',
+    text: '#FFF',
+  },
+};
+
 const AppBar = styled.div`
-  height: 64px;
+  height: 54px;
   width: 100%;
-  font-size: 24px;
-  background: #222;
-  color: white;
+  box-sizing: border-box;
+  font-size: 18px;
+  background: ${theme.color.primary};
+  color: ${theme.color.text};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,9 +60,10 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <AppBar>TILDA</AppBar>
+        <AppBar>Tilda</AppBar>
         <Route path='/profile' component={Profile} />
         <Route path='/speech' component={Speech} />
+        <Route path='/progress' component={Progress} />
         <Route path='/' exact component={Home} />
         <BottomNav>
           <Link to='/'><BtnBotNav>Home</BtnBotNav></Link>
