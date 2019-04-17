@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 
+import icFocusHome from './icons/focus-icons/home.svg'; 
+import icFocusProfile from './icons/focus-icons/profile.svg'; 
+import icFocusProgress from './icons/focus-icons/progress.svg'; 
+
+import icBlurHome from './icons/blur-icons/home.svg'; 
+import icBlurProfile from './icons/blur-icons/profile.svg'; 
+import icBlurProgress from './icons/blur-icons/progress.svg'; 
+
+
 // containers
 import {
   Home,
@@ -15,6 +24,7 @@ const theme = {
     primary: '#FF9800',
     background: '#F5F5F5',
     text: '#FFF',
+    light: '#FFF',
   },
 };
 
@@ -36,28 +46,60 @@ const BottomNav = styled.div`
   bottom: 0;
   width: 100%;
   height: 48px;
-  background: #222;
+  background: ${theme.color.light};
   display: flex;
   justify-content: center;
   align-items: center;
-`
 
-const BtnBotNav = styled.button`
-  margin-left: 16px;
-  margin-right: 16px;
-  border: 0px;
-  border-radius: 4px;
-  padding: 8px;
-  background: #fff;
-
-  &:hover {
-    cursor: pointer;
-    opacity: 0.8;
+  a {
+    text-decoration: unset;
   }
 `
 
+const BtnBotNavIcon = styled.img`
+  margin-left: 16px;
+  margin-right: 16px;
+`
+
+const IconText = styled.span`
+  font-size: 12px;
+  margin-top: 1px;
+  ${({ focus }) => focus ? 'color: #FF9800' : ''}
+`
+
+const BtnContainer = styled.div`
+  color: #222;
+
+  &:hover, &:focus {
+    cursor: pointer;
+    color: #FF9800;
+  }
+`
+
+const BtnBotNav = ({ icon, name, focus = false }) => {
+  return <BtnContainer style={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
+    <BtnBotNavIcon src={icon} alt={name} />
+    <IconText focus={focus}>{name}</IconText>
+  </BtnContainer>
+}
+
 class App extends Component {
+  state = {
+    btnClicked: 0,
+  }
+
+  handleBotBtn = (num) => {
+    this.setState({ btnClicked: num })
+  }
+
   render() {
+    const { btnClicked } = this.state;
+
     return (
       <Router>
         <AppBar>Tilda</AppBar>
@@ -66,9 +108,15 @@ class App extends Component {
         <Route path='/progress' component={Progress} />
         <Route path='/' exact component={Home} />
         <BottomNav>
-          <Link to='/'><BtnBotNav>Home</BtnBotNav></Link>
-          <Link to='/profile'><BtnBotNav>Profile</BtnBotNav></Link>
-          <Link to='/progress'><BtnBotNav>Progress</BtnBotNav></Link>
+          <Link to='/' onClick={() => this.handleBotBtn(0)} >
+            <BtnBotNav name='Home' focus={btnClicked === 0} icon={btnClicked === 0 ? icFocusHome : icBlurHome} />
+          </Link>
+          <Link to='/profile' onClick={() => this.handleBotBtn(1)} >
+            <BtnBotNav name='Profile' focus={btnClicked === 1} icon={btnClicked === 1 ? icFocusProfile : icBlurProfile} />
+          </Link>
+          <Link to='/progress' onClick={() => this.handleBotBtn(2)} >
+            <BtnBotNav name='Progress' focus={btnClicked === 2} icon={btnClicked === 2 ? icFocusProgress : icBlurProgress} />
+          </Link>
         </BottomNav>
       </Router>
     );
