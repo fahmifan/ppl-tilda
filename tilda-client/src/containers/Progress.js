@@ -66,7 +66,7 @@ const ProgressBoard = ({ doneDates = [] }) => {
 
   const percent = Math.floor(doneDates.length/30*100);
 
-  return <div>
+  return <div style={{   boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.125)'}}>
     <Board>
       {boardDates}
     </Board>
@@ -86,7 +86,7 @@ const ProgressBoard = ({ doneDates = [] }) => {
 
 const Container = styled.main`
   padding: 16px;
-  margin-top: 16px;
+  /* margin-top: 16px; */
 `
 
 export const Progress = class ProgressComp extends React.Component {

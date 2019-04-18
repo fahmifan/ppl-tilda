@@ -7,7 +7,7 @@ import { AppContext } from '../store';
 
 import wavePng from '../icons/wave.png';
 import micKuningPng from '../icons/mic-kuning.png';
-import micMerahPng from '../icons/mic-merah.png';
+import stopBtn from '../icons/stop_btn_2.svg';
 
 const color = {
   primary: '#FCB316',
@@ -45,16 +45,16 @@ const StartBtn = styled.div`
   width: 100px;
   height: 100px;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 50px;
 `
 
 const StopBtn = styled.div`
-background: url(${micMerahPng});
+background: url(${stopBtn});
 background-size: cover;
 width: 100px;
 height: 100px;
 margin: auto;
-margin-top: 100px;
+margin-top: 50px;
 `
 
 const initCountDown = 5*60;
