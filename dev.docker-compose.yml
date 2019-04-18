@@ -28,9 +28,7 @@ services:
   tilda-client:
     container_name: tilda-client
     mem_limit: 350m
-    build: 
-      context: ./tilda-client
-      dockerfile: Dockerfile-dev
+    build: ./tilda-client
     depends_on:
       - tilda-server
     volumes:

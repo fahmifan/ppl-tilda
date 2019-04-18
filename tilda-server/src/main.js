@@ -1,15 +1,11 @@
 const express = require('express');
-const { Router } = require('express');
 const path = require('path');
-const faker = require('faker');
 const mongoose = require('mongoose');
-const simsimi = require('simsimi')({
-  key: '41fa2cec-36c8-494f-af39-57ef035e22cf',
-  api: 'http://sandbox.api.simsimi.com/request.p'
-});
+const router = require('./routes');
+
+const { loggerMiddleware } = require('./logger')
 
 const app = express();
-const r = Router();
 
 const config = {
   PORT: process.env.PORT || '8080',
@@ -35,57 +31,10 @@ const userSchema = new mongoose.Schema({
 
 const UserModel = mongoose.model('User', userSchema);
 
-r.get('/ping', (req, res) => {
-  res.status(200).json({ message: 'pong' });
-});
-
-r.post('/users/', (req, res) => {
-  try {
-    const newUser = new UserModel({
-      name: faker.name.findName(),
-      pictURL: faker.internet.avatar(),
-      email: faker.internet.email(),
-      telp: faker.phone.phoneNumber(),
-    });
-
-    newUser.save((err, user) => {
-      console.log(user);
-
-      if (err) {
-        return res.status(400).json({ error: err.message });
-      }
-
-      return res.status(200).json({ message: 'created' });
-    });
-
-  } catch (e) {
-    return res.status(400).json({ error: e.message });
-  }
-});
-
-r.get('/users/:id', (req, res) => {
-  UserModel.find((err, users) => {
-    if (err) {
-      console.error('error', err);
-      return res.status(400).json({ error: err.message });
-    }
-
-    const userInfo = users.length >= req.params.id-1 ? users[req.params.id-1] : {}
-
-    return res.status(200).json(userInfo);
-  })
-})
-
-r.get('/test-bot', (req, res) => {
-  simsimi('halo')
-  .then(response => {
-    console.log('simsimi say:', response); // What's up ?
-    res.status(200).json({ response })
-  });
-});
-
+app.use(loggerMiddleware());
 app.use('/', express.static(path.join(__dirname, '../frontend')));
-app.use('/api', r);
+app.get('/api/ping', (req, res) => res.status(200).json({ message: 'pong' }));
+app.use('/api', router({ UserModel }));
 
 app.listen(config.PORT, () => {
   console.log(`starting ${config.ENV} server at :${config.PORT}`);

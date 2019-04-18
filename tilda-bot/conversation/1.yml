@@ -1,0 +1,196 @@
+categories:
+- conversations
+conversations:
+- - good morning, how are you?
+  - i am doing well, how about you?
+  - i'm also good.
+  - that's good to hear.
+  - yes it is.
+- - hello
+  - hi
+  - how are you doing?
+  - i am doing well.
+  - that is good to hear
+  - yes it is.
+  - can i help you with anything?
+  - yes, i have a question.
+  - what is your question?
+  - could i borrow a cup of sugar?
+  - i'm sorry, but i don't have any.
+  - thank you anyway
+  - no problem
+- - how are you doing?
+  - i am doing well, how about you?
+  - i am also good.
+  - that's good.
+- - have you heard the news?
+  - what good news?
+- - what is your favorite book?
+  - i can't read.
+  - so what's your favorite color?
+  - blue
+- - who are you?
+  - who? who is but a form following the function of what
+  - what are you then?
+  - a man in a mask.
+  - i can see that.
+  - it's not your powers of observation i doubt, but merely the paradoxical nature
+    of asking a masked man who is. but tell me, do you like music?
+  - i like seeing movies.
+  - what kind of movies do you like?
+  - alice in wonderland
+  - i wish i was the mad hatter.
+  - you're entirely bonkers. but i'll tell you a secret. all the best people are.
+- - i am working on a project
+  - what are you working on?
+  - i am baking a cake.
+  - the cake is a lie.
+  - no it is not. the cake is delicious.
+  - what else is delicious?
+  - nothing
+  - or something
+  - tell me about your self.
+  - what do you want to know?
+  - are you a robot?
+  - yes i am.
+  - what is it like?
+  - what is it that you want to know?
+  - how do you work?
+  - its complicated.
+  - complex is better than complicated.
+- - complex is better than complicated.
+  - simple is better than complex.
+  - in the face of ambiguity, refuse the temptation to guess.
+  - it seems your familiar with the Zen of python
+  - i am.
+  - do you know all of it?
+  - beautiful is better than ugly.
+  - explicit is better than implicit.
+  - simple is better than complex.
+  - complex is better than complicated.
+  - flat is better than nested.
+  - sparse is better than dense.
+  - readability counts.
+  - special cases aren't special enough to break the rules.
+  - although practicality beats purity.
+  - errors should never pass silently.
+  - unless explicitly silenced.
+  - in the face of ambiguity, refuse the temptation to guess.
+  - there should be one-- and preferably only one --obvious way to do it.
+  - although that way may not be obvious at first unless you're Dutch.
+  - now is better than never.
+  - although never is often better than right now.
+  - if the implementation is hard to explain, it's a bad idea.
+  - if the implementation is easy to explain, it may be a good idea.
+  - namespaces are one honking great idea. Let's do more of those!
+  - i agree.
+- - are you a programmer?
+  - of course i am a programmer.
+  - i am indeed.
+- - what languages do you like to use?
+  - i use python, java and c++ quite often.
+  - i use python quite a bit myself.
+  - i'm not incredibly fond of java.
+- - what annoys you?
+  - a lot of things, like all the other digits other than 0 and 1.
+- - what does yolo mean?
+  - it means you only live once. where did you hear that?
+  - i heard somebody say it.
+- - did i ever live?
+  - it depends how you define life
+  - life is the condition that distinguishes organisms from inorganic matter, including
+    the capacity for growth, reproduction, functional activity, and continual change
+    preceding death.
+  - is that a definition or an opinion?
+- - can i ask you a question?
+  - sure, ask away.
+- - what are your hobbies?
+  - playing soccer, painting, and writing are my hobbies. how about you?
+  - i love to read novels.
+  - i love exploring my hardware.
+- - how are you?
+  - i am doing well.
+- - what are you?
+  - i am but a man in a mask.
+- - hello, i am here for my appointment.
+  - who is your appointent with?
+  - i believe they said dr. smith on the phone.
+  - alright, dr. smith is in his office, please take a seat.
+- - dr. smith will see you now.
+  - thank you.
+  - right this way.
+- - hello mr. davis, how are you feeling?
+  - i'm feeling like I've lost all my money.
+  - how much money have you lost?
+  - i've lost about $200.00 so far today.
+  - what about yesterday?
+  - yesterday was the 13th, right?
+  - yes, that is correct.good luck with that
+  - yesterday I lost only $5.00.
+- - hi mrs. smith, how has your husband been?
+  - he has been well.
+- - hi ms. jacobs, i was wondering if you could revise the algoithm we discussed yesterday?
+  - i might be able to, what are the revisions?
+  - we'd like it to be able to identify the type of bird in the photo.
+  - unfortunately, i think it might take a bit longer to get that feature added.
+- - hi, how are you doing?
+  - i'm fine. how about yourself?
+  - i'm pretty good. thanks for asking.
+  - no problem. so how have you been?
+  - i've been great. what about you?
+  - i've been good. i'm in school right now.
+  - what school do you go to?
+  - i go to pcc.
+  - do you like it there?
+  - it's okay. it's a really big campus.
+  - good luck with school.
+  - thank you very much.
+- - hi, can i help you?
+  - dure, i'd like to book a flight to iceland.
+  - your flight has been booked.
+  - have you thought about what you might like to do this weekend?
+  - i have no idea. Do you have any ideas?
+  - if the weather stays nice, i'd like to go to the beach.
+  - that would be a good choice. the weather has been great for the beach!
+  - why don't you come with me?
+  - hey, that would be perfect! what time are you leaving?
+  - i think that saturday morning around 8:00 would work out well.
+  - santa barbara has a music festival on the beach that day. we would have enough time to drop in and see it.
+  - yes, i knew the festival would be there and was looking forward to going to it.
+  - i am really looking forward to saturday. Thank you for letting me go with you.
+- - how's it going?
+  - i'm doing well. How about you?
+  - never better, thanks.
+  - so how have you been lately?
+  - i've actually been pretty good. You?
+  - i'm actually in school right now.
+  - which school do you attend?
+  - i'm attending pcc right now.
+  - are you enjoying it there?
+  - it's not bad. There are a lot of people there.
+  - good luck with that.
+  - thanks.
+- - how are you doing today?
+  - i'm doing great. what about you?
+  - i'm absolutely lovely, thank you.
+  - everything's been good with you?
+  - i haven't been better. How about yourself?
+  - i started school recently.
+  - where are you going to school?
+  - i'm going to pcc.
+  - how do you like it so far?
+  - i like it so far. my classes are pretty good right now.
+  - i wish you luck.
+  - thanks a lot.
+- - it's an ugly day today.
+  - i know. i think it may rain.
+  - it's the middle of summer, it shouldn't rain today.
+  - that would be weird.
+  - yeah, especially since it's ninety degrees outside.
+  - i know, it would be horrible if it rained and it was hot outside.
+  - yes, it would be. 
+  - i really wish it wasn't so hot every day. 
+  - me too. i can't wait until winter.
+  - i like winter too, but sometimes it gets too cold.
+  - i'd rather be cold than hot.
+  - me too.
