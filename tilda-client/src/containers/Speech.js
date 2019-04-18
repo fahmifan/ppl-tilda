@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
-import { botAPI } from '../utils';
+import { botAPI, axios } from '../utils';
+import { AppContext } from '../store';
 
 import wavePng from '../icons/wave.png';
 import micKuningPng from '../icons/mic-kuning.png';
@@ -56,12 +57,14 @@ margin: auto;
 margin-top: 100px;
 `
 
-const initCountDown = 60;
+const initCountDown = 5*60;
 
 // eslint-disable-next-line no-undef
 const recognition = new webkitSpeechRecognition()
 
 class SpeechComp extends React.Component {
+  static contextType = AppContext;
+
   state = {
     speech: '',
     countDown: initCountDown,
@@ -159,7 +162,24 @@ class SpeechComp extends React.Component {
     });
   }
 
+  updateProgress = async (duration, userId) => {
+    try {
+      await axios(`/users/${userId}/progress`, {
+        method: 'POST',
+        data: {
+          duration,
+          unixdate: (new Date(Date.now())).getTime(),
+        }
+      })
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
   handleStop = () => {
+    const duration = initCountDown - this.state.countDown;
+    const userId = this.context.user._id;
+    this.updateProgress(duration, userId);
     this.setState({ isCountStart: false }, () => {
       console.log('stop recognition')
       // recognition.abort();
@@ -181,10 +201,14 @@ class SpeechComp extends React.Component {
       }
     }
 
+    const minute = Math.floor(countDown/60);
+    const sec = countDown % 60;
+
     return (
       <>
       <Card>
-        <span style={{ margin: 'auto', fontSize: '3em' }}>00:{countDown < 10 ? `0${countDown}` : countDown}</span>
+        {/* <span style={{ margin: 'auto', fontSize: '3em' }}>00:{countDown < 10 ? `0${countDown}` : countDown}</span> */}
+        <span style={{ margin: 'auto', fontSize: '3em' }}>{`0${minute}:${sec < 10 ? `0${sec}` : sec}`}</span>
       </Card> <br />
       {
         !isCountStart 
