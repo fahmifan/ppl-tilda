@@ -52,6 +52,7 @@ const BottomNav = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.125);
 
   a {
     text-decoration: unset;
