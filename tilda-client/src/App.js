@@ -134,6 +134,7 @@ class App extends Component {
       <Router>
         <Provider value={{
           user: this.state.user,
+          getUser: this.getUser,
         }}>
           <AppBar>Tilda</AppBar>
           <Route path='/profile' component={Profile} />

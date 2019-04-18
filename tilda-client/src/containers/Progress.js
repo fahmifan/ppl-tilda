@@ -91,8 +91,9 @@ const Container = styled.main`
 
 export const Progress = class ProgressComp extends React.Component {
   static contextType = AppContext;
-  state = {
 
+  componentDidMount() {
+    this.context.getUser();
   }
 
   render() {
