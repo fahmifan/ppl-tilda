@@ -1,5 +1,9 @@
 const r = require('express').Router();
 const faker = require('faker');
+const { check, validationResult } = require('express-validator/check');
+
+const { asyncwrap } = require('../utils')
+const { logger } = require('../logger')
 
 /**
  * @typedef {import('mongoose').Model} Model
@@ -49,5 +53,28 @@ module.exports = ({ UserModel }) => {
     })
   });
   
+  r.post('/users/:id/progress',[
+    check('unixdate').exists().isNumeric().withMessage('unknown unixdate'),
+    // duration is in second
+    check('duration').exists().isNumeric().withMessage('unknown duration'),
+  ], asyncwrap(async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+
+    const userId = req.params.id;
+    const { unixdate, duration } = req.body;
+
+    try {
+      const user = await UserModel.findById(userId);
+      user.progress.push({ duration, unixdate });
+      await user.save();
+  
+      return res.status(200).json(user);
+    } catch (e) {
+      logger.error(e);
+      return res.status(400).json({ error: 'cannot update progress' })
+    }
+  }));
+
   return r;
 }

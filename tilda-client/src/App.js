@@ -10,6 +10,8 @@ import icBlurHome from './icons/blur-icons/home.svg';
 import icBlurProfile from './icons/blur-icons/profile.svg'; 
 import icBlurProgress from './icons/blur-icons/progress.svg'; 
 
+import { axios } from './utils';
+import { Provider } from './store';
 
 // containers
 import {
@@ -82,15 +84,43 @@ const BtnBotNav = ({ icon, name, focus = false }) => {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
+      margin: '0 8px 0 8px',
     }}>
     <BtnBotNavIcon src={icon} alt={name} />
     <IconText focus={focus}>{name}</IconText>
   </BtnContainer>
 }
 
+const initState = {
+  user: {
+    auth: false,
+    name: '',
+    email: '',
+    telp: '',
+    pictURL: '',
+    progress: [],
+  },
+}
+
 class App extends Component {
   state = {
     btnClicked: 0,
+    user: initState.user
+  }
+
+  componentDidMount() {
+    this.getUser();
+  }
+
+  getUser = async () => {
+    try {
+      const { data } = await axios('/users/1', {
+        method: 'GET',
+      });
+      this.setState({ user: { ...this.state.user, ...data } });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   handleBotBtn = (num) => {
@@ -102,22 +132,27 @@ class App extends Component {
 
     return (
       <Router>
-        <AppBar>Tilda</AppBar>
-        <Route path='/profile' component={Profile} />
-        <Route path='/speech' component={Speech} />
-        <Route path='/progress' component={Progress} />
-        <Route path='/' exact component={Home} />
-        <BottomNav>
-          <Link to='/' onClick={() => this.handleBotBtn(0)} >
-            <BtnBotNav name='Home' focus={btnClicked === 0} icon={btnClicked === 0 ? icFocusHome : icBlurHome} />
-          </Link>
-          <Link to='/profile' onClick={() => this.handleBotBtn(1)} >
-            <BtnBotNav name='Profile' focus={btnClicked === 1} icon={btnClicked === 1 ? icFocusProfile : icBlurProfile} />
-          </Link>
-          <Link to='/progress' onClick={() => this.handleBotBtn(2)} >
-            <BtnBotNav name='Progress' focus={btnClicked === 2} icon={btnClicked === 2 ? icFocusProgress : icBlurProgress} />
-          </Link>
-        </BottomNav>
+        <Provider value={{
+          user: this.state.user,
+        }}>
+          <AppBar>Tilda</AppBar>
+          <Route path='/profile' component={Profile} />
+          <Route path='/speech' component={Speech} />
+          <Route path='/progress' component={Progress} />
+          <Route path='/' exact component={Home} />
+
+          <BottomNav>
+            <Link to='/' onClick={() => this.handleBotBtn(0)} >
+              <BtnBotNav name='Home' focus={btnClicked === 0} icon={btnClicked === 0 ? icFocusHome : icBlurHome} />
+            </Link>
+            <Link to='/profile' onClick={() => this.handleBotBtn(1)} >
+              <BtnBotNav name='Profile' focus={btnClicked === 1} icon={btnClicked === 1 ? icFocusProfile : icBlurProfile} />
+            </Link>
+            <Link to='/progress' onClick={() => this.handleBotBtn(2)} >
+              <BtnBotNav name='Progress' focus={btnClicked === 2} icon={btnClicked === 2 ? icFocusProgress : icBlurProgress} />
+            </Link>
+          </BottomNav>
+        </Provider>
       </Router>
     );
   }

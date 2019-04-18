@@ -14,6 +14,7 @@ const logger = createLogger({
   ],
   exitOnError: false,
 });
+exports.logger = logger;
 
 logger.stream = {
   write(message) {

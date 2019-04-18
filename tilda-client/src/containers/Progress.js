@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { AppContext } from '../store';
 
 const DateCircle = styled.div`
   box-sizing: border-box;
@@ -89,13 +90,15 @@ const Container = styled.main`
 `
 
 export const Progress = class ProgressComp extends React.Component {
+  static contextType = AppContext;
   state = {
 
   }
 
   render() {
+    const { user } = this.context;
     const days = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < user.progress.length; i++) {
       days.push(i+1);
     } 
 

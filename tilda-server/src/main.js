@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const router = require('./routes');
+const bodyParser = require('body-parser');
 
 const { loggerMiddleware } = require('./logger')
 
@@ -20,22 +21,29 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   console.log('connect to mongodb');
-});
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  pictURL: String,
-  telp: String,
-});
+  const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    pictURL: String,
+    telp: String,
+    progress: Array,
+    callHistory: Array,
+  });
+  
+  const UserModel = mongoose.model('User', userSchema);
 
-const UserModel = mongoose.model('User', userSchema);
+  // parse application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({ extended: false }));
+  // parse application/json
+  app.use(bodyParser.json());
 
-app.use(loggerMiddleware());
-app.use('/', express.static(path.join(__dirname, '../frontend')));
-app.get('/api/ping', (req, res) => res.status(200).json({ message: 'pong' }));
-app.use('/api', router({ UserModel }));
-
-app.listen(config.PORT, () => {
-  console.log(`starting ${config.ENV} server at :${config.PORT}`);
+  app.use(loggerMiddleware());
+  app.use('/', express.static(path.join(__dirname, '../frontend')));
+  app.get('/api/ping', (req, res) => res.status(200).json({ message: 'pong' }));
+  app.use('/api', router({ UserModel }));
+  
+  app.listen(config.PORT, () => {
+    console.log(`starting ${config.ENV} server at http://localhost:${config.PORT}`);
+  });
 });

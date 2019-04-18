@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { axios } from '../utils';
-
-// import pictHolder from '../icons/profil--pict-malik.png'
+import { AppContext } from '../store';
 
 const ProfilePict = styled.div`
   width: 128px;
@@ -43,33 +41,11 @@ const Container = styled.div`
   margin: auto;
 `;
 
-export const Profile = class ProfileComp extends React.Component {  
-  state = {
-    userInfo: {
-      name: '',
-      email: '',
-      telp: '',
-      pictURL: '',
-    },   
-  }
-
-  componentDidMount() {
-    this.getUser();
-  }
-
-  getUser = async () => {
-    try {
-      const { data } = await axios.get('/users/1');
-      this.setState({
-        userInfo: data,
-      })
-    } catch(e) {
-      console.log(e);
-    }
-  }
+export const Profile = class ProfileComp extends React.Component {
+  static contextType = AppContext;
 
   render() {
-    const { userInfo } = this.state;
+    const userInfo = this.context.user;
 
     return <Container>
       <br />
