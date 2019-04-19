@@ -14,7 +14,7 @@ const DateCircle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 8px;
+  margin: 4px 8px;
 `;
 
 const Board = styled.div`
@@ -86,7 +86,7 @@ const ProgressBoard = ({ doneDates = [] }) => {
 
 const Container = styled.main`
   padding: 16px;
-  /* margin-top: 16px; */
+  margin-top: 16px;
 `
 
 export const Progress = class ProgressComp extends React.Component {
