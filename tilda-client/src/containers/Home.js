@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link }  from 'react-router-dom';
 import styled from 'styled-components';
-import btn5minute from '../icons/btn-5-minute.png';
-import btnLetsTalk from '../icons/btn-lets-talk.png';
 
 import img5Minute from '../icons/pedestrian_crossing.svg'
 import imgLetsTalk from '../icons/missed_chances.svg'
@@ -12,7 +10,7 @@ const Container = styled.div`
   max-width: 800px;
   display: block;
   padding: 8px 16px 0 16px;
-  min-height: 95vh;
+  margin-bottom: 64px;
 
   a {
     text-decoration: initial;
@@ -29,7 +27,6 @@ const BtnImage = styled.div`
   background-repeat: no-repeat;
 
   &:hover {
-    cursor: pointer;
     opacity: 0.8;
   }
 `;
@@ -42,21 +39,55 @@ const CardContainer = styled.div`
   padding: 8px 0 8px 0;
   margin: 8px 0 16px 0;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.125);
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  }
 `
 
-const Card = ({ imgURL, title, description }) => (
+const BtnStart = styled.button`
+  box-sizing: border-box;
+  width: 87px;
+  height: 36px;
+  background: #FF9800;
+  border-radius: 2px;
+  border: 0px;
+  color: #fff;
+  bottom: 0;
+  right: 0;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.125);
+
+  &:hover {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    opacity: 0.8;
+    cursor: pointer;
+  }
+`
+
+const Card = ({ imgURL, title, description, btnText }) => (
   <CardContainer>
     <BtnImage imgURL={imgURL} />
-    <p style={{ fontWeight: 'bold', margin: '8px 16px' }}>{title}</p>
+    <p style={{ fontSize: '18px', paddingTop: '8px', fontWeight: 'bold', margin: '8px 16px' }}>{title}</p>
     <p style={{ fontSize: '14px', margin: '8px 16px' }}>{description} </p>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center', 
+        margin: '0px 16px 16px 8px',
+    }}>
+      <Link to='/speech'>
+        <BtnStart>{btnText}</BtnStart>
+      </Link>
+    </div>
   </CardContainer>
 );
 
 export const Home = () => (
   <Container>
     <Link to='/speech'>
-      <Card imgURL={img5Minute} title='5 Minute Challenge' description='Latihan ngobrol Inggris barenga Tilda selama 5 menit. Bisa dilakuini pas perjalanan PP dari kosan ke kampus.' />
+      <Card imgURL={img5Minute} btnText='START' title='5 Minute Challenge' description='Latihan ngobrol Inggris barenga Tilda selama 5 menit. Bisa dilakuini pas perjalanan PP dari kosan ke kampus.' />
     </Link>
-    <Card imgURL={imgLetsTalk} title="Let's Talk" description='Start voice call to other people and talk to them in english' />
+    <Card imgURL={imgLetsTalk} btnText='CALL' title="Let's Talk" description='Start voice call to other people and talk to them in english' />
   </Container>
 );

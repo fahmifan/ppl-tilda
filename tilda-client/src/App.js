@@ -75,7 +75,7 @@ const BtnContainer = styled.div`
 
   &:hover, &:focus {
     cursor: pointer;
-    color: #FF9800;
+    opacity: 0.8;
   }
 `
 
