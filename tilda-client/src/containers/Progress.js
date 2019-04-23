@@ -98,13 +98,30 @@ export const Progress = class ProgressComp extends React.Component {
 
   render() {
     const { user } = this.context;
+    // list of user practice days
     const days = [];
+    // user length of talk in theses days
+    let talkLength = 0;
     for (let i = 0; i < user.progress.length; i++) {
       days.push(i+1);
+      talkLength += user.progress[i].duration;
     } 
+
+    const minute = Math.floor(talkLength/60);
+    const second = talkLength%60;
 
     return <Container>
       <ProgressBoard doneDates={days} />
+      <div style={{
+        padding: '8px 16px',
+        margin: '8px 0px',
+        background: '#fff',
+        boxSizing: 'border-box',
+        boxShadow: 'rgba(0, 0, 0, 0.125) 0px 2px 2px',
+      }}>
+        <p style={{ margin: '0px', color: '#777' }}>Talk</p>
+        <h3 style={{ margin: '0px', color: '#222' }}>00:{minute < 10 ? `0${minute}` : minute}:{second < 10 ? `0${second}` : second}</h3>
+      </div>
     </Container>
   }
 }

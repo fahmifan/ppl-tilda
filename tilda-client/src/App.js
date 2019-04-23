@@ -38,6 +38,7 @@ const AppBar = styled.div`
   background: ${theme.color.primary};
   color: ${theme.color.text};
   display: flex;
+  box-shadow: rgba(0, 0, 0, 0.125) 0px 2px 2px;
   align-items: center;
   justify-content: center;
   text-align: center;
