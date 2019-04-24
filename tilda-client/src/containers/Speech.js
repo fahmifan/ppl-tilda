@@ -140,7 +140,7 @@ class SpeechComp extends React.Component {
   getReply = async ({ message = '' }) => {
     try {
       const { data } = await botAPI.post('/talk', {
-        message,
+        message: message.toLowerCase(),
       })
 
       console.log('getReply', data);
