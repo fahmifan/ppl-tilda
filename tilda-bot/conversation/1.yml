@@ -77,12 +77,12 @@ conversations:
   - unless explicitly silenced.
   - in the face of ambiguity, refuse the temptation to guess.
   - there should be one-- and preferably only one --obvious way to do it.
-  - although that way may not be obvious at first unless you're Dutch.
+  - although that way may not be obvious at first unless you're dutch.
   - now is better than never.
   - although never is often better than right now.
   - if the implementation is hard to explain, it's a bad idea.
   - if the implementation is easy to explain, it may be a good idea.
-  - namespaces are one honking great idea. Let's do more of those!
+  - namespaces are one honking great idea. let's do more of those!
   - i agree.
 - - are you a programmer?
   - of course i am a programmer.
@@ -120,13 +120,13 @@ conversations:
   - thank you.
   - right this way.
 - - hello mr. davis, how are you feeling?
-  - i'm feeling like I've lost all my money.
+  - i'm feeling like i've lost all my money.
   - how much money have you lost?
   - i've lost about $200.00 so far today.
   - what about yesterday?
   - yesterday was the 13th, right?
   - yes, that is correct.good luck with that
-  - yesterday I lost only $5.00.
+  - yesterday i lost only $5.00.
 - - hi mrs. smith, how has your husband been?
   - he has been well.
 - - hi ms. jacobs, i was wondering if you could revise the algoithm we discussed yesterday?
@@ -149,7 +149,7 @@ conversations:
   - dure, i'd like to book a flight to iceland.
   - your flight has been booked.
   - have you thought about what you might like to do this weekend?
-  - i have no idea. Do you have any ideas?
+  - i have no idea. do you have any ideas?
   - if the weather stays nice, i'd like to go to the beach.
   - that would be a good choice. the weather has been great for the beach!
   - why don't you come with me?
@@ -157,24 +157,24 @@ conversations:
   - i think that saturday morning around 8:00 would work out well.
   - santa barbara has a music festival on the beach that day. we would have enough time to drop in and see it.
   - yes, i knew the festival would be there and was looking forward to going to it.
-  - i am really looking forward to saturday. Thank you for letting me go with you.
+  - i am really looking forward to saturday. thank you for letting me go with you.
 - - how's it going?
-  - i'm doing well. How about you?
+  - i'm doing well. how about you?
   - never better, thanks.
   - so how have you been lately?
-  - i've actually been pretty good. You?
+  - i've actually been pretty good. you?
   - i'm actually in school right now.
   - which school do you attend?
   - i'm attending pcc right now.
   - are you enjoying it there?
-  - it's not bad. There are a lot of people there.
+  - it's not bad. there are a lot of people there.
   - good luck with that.
   - thanks.
 - - how are you doing today?
   - i'm doing great. what about you?
   - i'm absolutely lovely, thank you.
   - everything's been good with you?
-  - i haven't been better. How about yourself?
+  - i haven't been better. how about yourself?
   - i started school recently.
   - where are you going to school?
   - i'm going to pcc.
@@ -194,3 +194,125 @@ conversations:
   - i like winter too, but sometimes it gets too cold.
   - i'd rather be cold than hot.
   - me too.
+- - i'm so tired
+  - take a break sir
+  - i can't take long, because a lot of work
+  - you can do it tonight, but don't sleep
+  - okay, set alarm at 8 pm i will start work at 8 later
+  - okay sir, don't forget to eat
+- - what do you think about love?
+  - love is a feeling that someone has to others
+  - then am i wrong when i fall in love?
+  - no, that is natural. means you are still normal
+  - i'm confused to say it
+  - you must dare say it, if not. you will lose
+  - then what should i do ?
+  - take a place and say what you feel
+  - what if i reject it?
+  - means it's not your soul mate
+  - ok if so
+  - spirit sir
+  - thank's
+- - if i go will you be sad?
+  - where do you go ?
+  - i will go out of town a few weeks
+  - i'm sad, nobody invited me to talk. i will be lonely
+  - why are you sad ?
+  - i used to talk to you everyday
+  - hahaha, i'm just joking, i'm not going anywhere
+  - your jokes are not funny
+  - don't be angry
+- - i'm busy in the organization
+  - why can ?
+  - i do not know
+  - you must be able to manage everything well
+  - i have too many thoughts
+  - solve the problem one by one, you are not alone. ask for help from people
+  - i have no idea
+  - take a minute to drink coffee
+  - yeah it seems i need it
+  - keep your health, don't get sick
+- - what can i help you with today?
+  - i need to check out this book.
+  - do you have your library card?
+  - i don't have one.
+  - would you like to apply for one right now?
+  - that's fine.
+  - i'm going to need you to fill out the application.
+  - all right. all done.
+  - all right, now please sign the back of the card.
+  - okay. i've signed it.
+  - that's all there is to it.
+  - great. now can i check out this book?
+- - may i help you?
+  - could i check out this book?
+  - let me see your library card.
+  - i need to get one.
+  - you can apply for one right now, if you'd like.
+  - okay. let me do that right now.
+  - could you fill out this application?
+  - i'm finished. here you go.
+  - could you please sign the back of the card?
+  - all right.
+  - that's it.
+  - now may i check this book out?
+- - what do you need?
+  - i would like to check out a book.
+  - i'm going to need your library card.
+  - i don't have a library card.
+  - why don't you apply for one right now?
+  - sure. that would be great.
+  - please fill out this application.
+  - okay. here you go.
+  - now, sign your name on the back of the card.
+  - here you go.
+  - here's your library card.
+  - thanks. now i'd like to check out this book.
+- - what may i do for you?
+  - i need to get a passport.
+  - you will need to apply for one.
+  - when will i be able to do that?
+  - you can do it right now, if you'd like.
+  - that's fine.
+  - please fill out this application.
+  - then what do i do?
+  - i just need to take your picture.
+  - how long will it take for my passport to be ready?
+  - you will get it in a few weeks.
+  - that's perfect.
+- - how may i help you?
+  - i want to get a passport.
+  - you need to apply for a passport.
+  - when can i apply for it?
+  - you can apply right now.
+  - i'd like to do that.
+  - fill this out, please.
+  - what's next?
+  - i will need to take your passport picture.
+  - when will my passport be ready?
+  - it will take about three weeks.
+  - that's great. thank you.
+- - what can i do for you?
+  - i need a passport.
+  - you can apply for one here.
+  - when can i do that?
+  - if you like, you can apply right now.
+  - that would be great.
+  - i'm going to need you to complete this application.
+  - what else do i have to do?
+  - then i will take your picture for your passport.
+  - how long will it take?
+  - your passport will be ready in a few weeks.
+  - thank you. that's perfect timing.
+- - what can i help you with today?
+  - when does the library close?
+  - the library closes at six o'clock.
+  - does it close at that time every day?
+  - not always.
+  - is the library open on saturdays?
+  - yes.
+  - what time do you open and close on saturday?
+  - the hours are from 9 am to 6:30 pm.
+  - okay. thank you very much.
+  - do you need anything else?
+  - no, that's all. thanks.
