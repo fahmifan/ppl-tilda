@@ -1,9 +1,14 @@
-version: '2'
+version: '3.4'
 services:
   mongodb:
     container_name: mongodb
-    mem_limit: 200m
     image: mvertes/alpine-mongo
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
     volumes:
       - tilda-mongo:/data/db
     ports:
@@ -11,7 +16,6 @@ services:
 
   tilda-server:
     container_name: tilda-server
-    mem_limit: 200m
     restart: always
     build: ./tilda-server
     depends_on: 
@@ -27,7 +31,6 @@ services:
 
   tilda-client:
     container_name: tilda-client
-    mem_limit: 350m
     build: ./tilda-client
     depends_on:
       - tilda-server
@@ -47,16 +50,13 @@ services:
       - DB_URL=mongodb://mongodb:27017/tilda-bot
       - DB_ADAPTER=chatterbot.storage.MongoDatabaseAdapter
     volumes:
-      - "./tilda-bot:/app"
+      - ./tilda-bot:/app
     ports:
       - '5000:5000'
-    mem_limit: 300m
-
 
   proxy:
     build: ./proxy
     container_name: proxy
-    mem_limit: 10m
     depends_on:
       - tilda-server
       - tilda-client
