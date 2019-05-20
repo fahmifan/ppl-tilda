@@ -65,7 +65,7 @@ const BtnStart = styled.button`
   }
 `
 
-const Card = ({ imgURL, title, description, btnText }) => (
+const Card = ({ imgURL, title, description, btnText, to }) => (
   <CardContainer>
     <BtnImage imgURL={imgURL} />
     <p style={{ fontSize: '18px', paddingTop: '8px', fontWeight: 'bold', margin: '8px 16px' }}>{title}</p>
@@ -76,7 +76,7 @@ const Card = ({ imgURL, title, description, btnText }) => (
         alignItems: 'center', 
         margin: '0px 16px 16px 8px',
     }}>
-      <Link to='/speech'>
+      <Link to={to}>
         <BtnStart>{btnText}</BtnStart>
       </Link>
     </div>
@@ -86,8 +86,10 @@ const Card = ({ imgURL, title, description, btnText }) => (
 export const Home = () => (
   <Container>
     <Link to='/speech'>
-      <Card imgURL={img5Minute} btnText='START' title='5 Minute Challenge' description='Latihan ngobrol Inggris barenga Tilda selama 5 menit. Bisa dilakuini pas perjalanan PP dari kosan ke kampus.' />
+      <Card to='/speech' imgURL={img5Minute} btnText='START' title='5 Minute Challenge' description='Latihan ngobrol Inggris barenga Tilda selama 5 menit. Bisa dilakuini pas perjalanan PP dari kosan ke kampus.' />
     </Link>
-    <Card imgURL={imgLetsTalk} btnText='CALL' title="Let's Talk" description='Start voice call to other people and talk to them in english' />
+    <Link to='/lets-talk'>
+      <Card to='/lets-talk' imgURL={imgLetsTalk} btnText='CALL' title="Let's Talk" description='Start voice call to other people and talk to them in english' />
+    </Link>
   </Container>
 );

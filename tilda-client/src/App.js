@@ -19,6 +19,7 @@ import {
   Profile,
   Speech,
   Progress,
+  LetsTalk,
 } from './containers'
 
 const theme = {
@@ -142,6 +143,7 @@ class App extends Component {
           <Route path='/profile' component={Profile} />
           <Route path='/speech' component={Speech} />
           <Route path='/progress' component={Progress} />
+          <Route path='/lets-talk' component={LetsTalk} />
           <Route path='/' exact component={Home} />
 
           <BottomNav>
