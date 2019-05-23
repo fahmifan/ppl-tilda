@@ -2,7 +2,7 @@ import React from 'react';
 import io from 'socket.io-client';
 
 const initState = {
-  pin: '',
+  pin: '999',
   showVideo: false,
 }
 
@@ -19,6 +19,10 @@ export class LetsTalk extends React.Component {
 
   componentWillUnmount() {
     this.stopCall()
+  }
+
+  componentDidMount() {
+    this.register();
   }
 
   handleInput = (e) => {
@@ -198,20 +202,20 @@ export class LetsTalk extends React.Component {
       console.log(`Failed to create session description: ${error.toString()}`);
     })
   }
-
   stopCall = () => {
-    this._peer.close()
-    this._socket.close()
+    if (this._peer) this._peer.close()
+    if (this._socket) this._socket.close()
+
     this._peer = null
     this._isHost = false
     if (this.localVideo) {
-      const track = this.localVideo.srcObject.getTracks()[0];
-      track.stop()
-      this.localVideo.srcObject = null
+      // const track = this.localVideo.srcObject.getTracks()[0];
+      // track.stop()
+      // this.localVideo.srcObject = null
     }
 
     if (this.remoteVideo) {
-      this.remoteVideo.srcObject = null
+      // this.remoteVideo.srcObject = null
     }
   }
   receive = (desc) => {
@@ -243,7 +247,7 @@ export class LetsTalk extends React.Component {
   render() {
     const { showVideo } = this.state
     return <>
-      <input name='pin' type='text' onChange={this.handleInput} />
+      {/* <input name='pin' type='text' onChange={this.handleInput} /> */}
       { showVideo && <>
         <video style={{
             backgroundColor: '#444444',
@@ -256,7 +260,7 @@ export class LetsTalk extends React.Component {
         }} playsInline autoPlay ref={vid => this.localVideo = vid}></video>
 
         <video style={{
-            backgroundColor: '#1d8a86',
+            backgroundColor: '#fbfbfb',
             position: 'fixed',
             left: '0px',
             width: '100vw',
@@ -264,7 +268,7 @@ export class LetsTalk extends React.Component {
             zIndex: 1,
         }} playsInline autoPlay ref={vid => this.remoteVideo = vid}></video>
       </>}
-      <button onClick={this.register}>Connect</button>
+      {/* <button onClick={this.register}>Connect</button> */}
     </>
   } 
 }
