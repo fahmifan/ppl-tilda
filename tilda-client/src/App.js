@@ -140,7 +140,7 @@ class App extends Component {
           getUser: this.getUser,
         }}>
           <AppBar>Tilda</AppBar>
-          <Route path='/profile' component={Profile} />
+          {/* <Route path='/profile' component={Profile} /> */}
           <Route path='/speech' component={Speech} />
           <Route path='/progress' component={Progress} />
           <Route path='/lets-talk' component={LetsTalk} />
@@ -150,9 +150,9 @@ class App extends Component {
             <Link to='/' onClick={() => this.handleBotBtn(0)} >
               <BtnBotNav name='Home' focus={btnClicked === 0} icon={btnClicked === 0 ? icFocusHome : icBlurHome} />
             </Link>
-            <Link to='/profile' onClick={() => this.handleBotBtn(1)} >
+            {/* <Link to='/profile' onClick={() => this.handleBotBtn(1)} >
               <BtnBotNav name='Profile' focus={btnClicked === 1} icon={btnClicked === 1 ? icFocusProfile : icBlurProfile} />
-            </Link>
+            </Link> */}
             <Link to='/progress' onClick={() => this.handleBotBtn(2)} >
               <BtnBotNav name='Progress' focus={btnClicked === 2} icon={btnClicked === 2 ? icFocusProgress : icBlurProgress} />
             </Link>

@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AppContext } from '../store';
+import {
+  Profile,
+} from '../components'
 
 const DateCircle = styled.div`
   box-sizing: border-box;
@@ -86,7 +89,8 @@ const ProgressBoard = ({ doneDates = [] }) => {
 
 const Container = styled.main`
   padding: 16px;
-  margin-top: 16px;
+  margin-top: 8px;
+  margin-bottom: 48px;
 `
 
 export const Progress = class ProgressComp extends React.Component {
@@ -111,6 +115,12 @@ export const Progress = class ProgressComp extends React.Component {
     const second = talkLength%60;
 
     return <Container>
+      <Profile
+        pictURL={user.pictURL}
+        name={user.name}
+        telp={user.telp}
+        email={user.email} />
+
       <ProgressBoard doneDates={days} />
       <div style={{
         padding: '8px 16px',
