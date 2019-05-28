@@ -1,9 +1,9 @@
 const r = require('express').Router();
 const faker = require('faker');
-const { check, validationResult } = require('express-validator/check');
-
-const { asyncwrap } = require('../utils')
+const { validate, asyncwrap } = require('../utils')
 const { logger } = require('../logger')
+const { check } = require('express-validator/check');
+
 
 /**
  * @typedef {import('mongoose').Model} Model
@@ -12,30 +12,35 @@ const { logger } = require('../logger')
 /**
  * @param {{ UserModel: Model }}
  */
-module.exports = ({ UserModel }) => {  
-  r.post('/users/', (req, res) => {
-    try {
-      const newUser = new UserModel({
-        name: faker.name.findName(),
-        pictURL: faker.internet.avatar(),
-        email: faker.internet.email(),
-        telp: faker.phone.phoneNumber(),
-      });
+module.exports = ({ UserModel }) => {
+  // create user
+  r.post('/users/', [
+    check('name').exists().isString().withMessage('unknown name'),
+    check('pictURL').exists().isString().withMessage('unknown pictURL'),
+    check('email').exists().isString().withMessage('unknown email'),
+    check('password').exists().isString().withMessage('unknown password'),
+    check('telp').exists().isString().withMessage('unknown telp'),
+  ],
+  validate,
+  asyncwrap(async (req, res) => {
+    const {
+      name, pictURL, email, telp, password
+    } = req.body
+
+    const newUser = new UserModel({
+      name, pictURL, email, telp, password
+    });
+
+    newUser.save((err, user) => {
+      if (err) {
+        console.error(err);
+        return res.status(400).json({ error: err.message });
+      }
+      return res.status(200).json({ message: 'created' });
+    });  
+  }));
   
-      newUser.save((err, user) => {
-        if (err) {
-          console.error(err);
-          return res.status(400).json({ error: err.message });
-        }
-        return res.status(200).json({ message: 'created' });
-      });
-  
-    } catch (e) {
-      console.error(e);
-      return res.status(400).json({ error: e.message });
-    }
-  });
-  
+  // get a user
   r.get('/users/:id', (req, res) => {
     UserModel.find((err, users) => {
       if (err) {
@@ -48,29 +53,26 @@ module.exports = ({ UserModel }) => {
       return res.status(200).json(userInfo);
     })
   });
-  
-  r.post('/users/:id/progress',[
-    check('unixdate').exists().isNumeric().withMessage('unknown unixdate'),
-    // duration is in second
-    check('duration').exists().isNumeric().withMessage('unknown duration'),
-  ], asyncwrap(async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
 
-    const userId = req.params.id;
-    const { unixdate, duration } = req.body;
+  // update user progress
+  r.post('/users/:id/progress',
+    [
+      check('unixdate').exists().isNumeric().withMessage('unknown unixdate'),
+      // duration is in second
+      check('duration').exists().isNumeric().withMessage('unknown duration'),
+    ], 
+    validate, 
+    asyncwrap(async (req, res) => {
+      const userId = req.params.id;
+      const { unixdate, duration } = req.body;
 
-    try {
       const user = await UserModel.findById(userId);
       user.progress.push({ duration, unixdate });
       await user.save();
-  
+
       return res.status(200).json(user);
-    } catch (e) {
-      logger.error(e);
-      return res.status(400).json({ error: 'cannot update progress' })
     }
-  }));
+  ));
 
   return r;
 }

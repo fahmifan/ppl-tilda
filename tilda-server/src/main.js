@@ -32,6 +32,7 @@ db.once('open', () => {
     name: String,
     email: String,
     pictURL: String,
+    password: String,
     telp: String,
     progress: Array,
     callHistory: Array,
