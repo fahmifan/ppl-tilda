@@ -12,11 +12,7 @@ const { logger } = require('../logger')
 /**
  * @param {{ UserModel: Model }}
  */
-module.exports = ({ UserModel }) => {
-  r.get('/ping', (req, res) => {
-    res.status(200).json({ message: 'pong' });
-  });
-  
+module.exports = ({ UserModel }) => {  
   r.post('/users/', (req, res) => {
     try {
       const newUser = new UserModel({

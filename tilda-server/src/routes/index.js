@@ -3,10 +3,15 @@ const { Router } = require('express')
 const user = require('./user');
 
 module.exports = (model) => {
-  const apiRoute = Router();
+  const r = Router();
   
-  // inject dependencies
-  apiRoute.use(user(model));
+  r.get('/ping', (req, res) => {
+    res.status(200).json({ message: 'pong' });
+  });
+  
 
-  return apiRoute;
+  // inject dependencies
+  r.use(user(model));
+
+  return r;
 }
