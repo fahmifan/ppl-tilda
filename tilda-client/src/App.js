@@ -3,23 +3,22 @@ import styled from 'styled-components';
 import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 
 import icFocusHome from './icons/focus-icons/home.svg'; 
-import icFocusProfile from './icons/focus-icons/profile.svg'; 
 import icFocusProgress from './icons/focus-icons/progress.svg'; 
 
 import icBlurHome from './icons/blur-icons/home.svg'; 
-import icBlurProfile from './icons/blur-icons/profile.svg'; 
 import icBlurProgress from './icons/blur-icons/progress.svg'; 
 
 import { axios } from './utils';
 import { Provider } from './store';
+import { RouteUser } from './routes';
 
 // containers
 import {
   Home,
-  Profile,
   Speech,
   Progress,
   LetsTalk,
+  Login,
 } from './containers'
 
 const theme = {
@@ -102,6 +101,7 @@ const initState = {
     telp: '',
     pictURL: '',
     progress: [],
+    token: '',
   },
 }
 
@@ -130,6 +130,26 @@ class App extends Component {
     this.setState({ btnClicked: num })
   }
 
+  login = async ({ email, password }) => {
+    try {
+      const { data } = await axios('/login', {
+        method: 'POST',
+        data: { email, password },
+      });
+
+      this.setState({
+        user: {
+          ...data.user,
+          auth: true,
+          token: data.token,
+        }
+      })
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   render() {
     const { btnClicked } = this.state;
 
@@ -138,21 +158,19 @@ class App extends Component {
         <Provider value={{
           user: this.state.user,
           getUser: this.getUser,
+          login: this.login,
         }}>
           <AppBar>Tilda</AppBar>
-          {/* <Route path='/profile' component={Profile} /> */}
-          <Route path='/speech' component={Speech} />
-          <Route path='/progress' component={Progress} />
-          <Route path='/lets-talk' component={LetsTalk} />
+          <RouteUser path='/speech' component={Speech} />
+          <RouteUser path='/progress' component={Progress} />
+          <RouteUser path='/lets-talk' component={LetsTalk} />
           <Route path='/' exact component={Home} />
+          <Route path='/login' exact component={Login} />
 
           <BottomNav>
             <Link to='/' onClick={() => this.handleBotBtn(0)} >
               <BtnBotNav name='Home' focus={btnClicked === 0} icon={btnClicked === 0 ? icFocusHome : icBlurHome} />
             </Link>
-            {/* <Link to='/profile' onClick={() => this.handleBotBtn(1)} >
-              <BtnBotNav name='Profile' focus={btnClicked === 1} icon={btnClicked === 1 ? icFocusProfile : icBlurProfile} />
-            </Link> */}
             <Link to='/progress' onClick={() => this.handleBotBtn(2)} >
               <BtnBotNav name='Progress' focus={btnClicked === 2} icon={btnClicked === 2 ? icFocusProgress : icBlurProgress} />
             </Link>
