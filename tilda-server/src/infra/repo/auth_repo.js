@@ -6,8 +6,8 @@ const authOfToken = async ({ AuthModel, token }) => {
 
 const save = async ({ AuthModel, authData }) => {
   const newAuthData = new AuthModel(authData);
-  const authData = await newAuthData.save();
-  return Promise.resolve(authData);
+  const data = await newAuthData.save();
+  return Promise.resolve(data);
 };
 
 const authOfUserID = async ({ AuthModel, userID }) => {
