@@ -5,7 +5,8 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
+  withRouter,
 } from 'react-router-dom';
 
 import icFocusHome from './icons/focus-icons/home.svg'; 
@@ -47,7 +48,8 @@ const AppBar = styled.div`
   display: flex;
   box-shadow: rgba(0, 0, 0, 0.125) 0px 2px 2px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0px 16px;
   text-align: center;
 `;
 
@@ -84,6 +86,21 @@ const BtnContainer = styled.div`
   &:hover, &:focus {
     cursor: pointer;
     opacity: 0.8;
+  }
+`
+
+const Button = styled.button`
+  border: 1px solid #fff;
+  border-radius: 4px;
+  padding: 8px;
+  min-width: 64px;
+  color: #fff;
+  background: #FF9800;
+
+  &:hover {
+    background: #EF2929;
+    border: 1px solid #EF2929;
+    cursor: pointer;
   }
 `
 
@@ -203,6 +220,13 @@ class App extends Component {
     }
   } 
 
+  logout = () => {
+    localStorage.removeItem('user');
+    this.setState({
+      user: initState.user,
+    })
+  }
+
   render() {
     const { btnClicked, user } = this.state;
 
@@ -217,25 +241,36 @@ class App extends Component {
             'Authorization': user.token,
           }
         }}>
-          <AppBar>Tilda</AppBar>
+          <AppBar><span>Tilda</span>
+            { user.auth
+                ? <Link style={{ textDecoration: 'none', color: '#fff' }} to="/logout"><Button>Logout</Button></Link>
+                : <Link style={{ textDecoration: 'none', color: '#fff' }} to="/login"><Button>Login</Button></Link>
+            }
+          </AppBar>
           <Switch>
             <RouteUser path='/speech' component={Speech} />
             <RouteUser path='/progress' component={Progress} />
             <RouteUser path='/lets-talk' component={LetsTalk} />
-            <RouteUser path='/' exact component={Home} />
+            <Route path='/' exact component={Home} />
             <Route path='/login' exact component={Login} />
-            <Route path='/register' exact component={Register} />
+            <Route path='/register' exact component={Register} /> 
+            <Route path='/logout' component={withRouter(({ history }) => {
+              this.logout();
+              history.replace("/");
+
+              return <></>
+            })} />
             <Redirect to='/' />
           </Switch>
 
-          <BottomNav>
+          { user.auth && <BottomNav>
             <Link to='/' onClick={() => this.handleBotBtn(0)} >
               <BtnBotNav name='Home' focus={btnClicked === 0} icon={btnClicked === 0 ? icFocusHome : icBlurHome} />
             </Link>
             <Link to='/progress' onClick={() => this.handleBotBtn(2)} >
               <BtnBotNav name='Progress' focus={btnClicked === 2} icon={btnClicked === 2 ? icFocusProgress : icBlurProgress} />
             </Link>
-          </BottomNav>
+          </BottomNav>}
         </Provider>
       </Router>
     );
