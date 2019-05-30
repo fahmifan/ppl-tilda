@@ -85,11 +85,7 @@ const Card = ({ imgURL, title, description, btnText, to }) => (
 
 export const Home = () => (
   <Container>
-    <Link to='/speech'>
-      <Card to='/speech' imgURL={img5Minute} btnText='START' title='5 Minute Challenge' description='Latihan ngobrol Inggris barenga Tilda selama 5 menit. Bisa dilakuini pas perjalanan PP dari kosan ke kampus.' />
-    </Link>
-    <Link to='/lets-talk'>
-      <Card to='/lets-talk' imgURL={imgLetsTalk} btnText='CALL' title="Let's Talk" description='Start voice call to other people and talk to them in english' />
-    </Link>
+    <Card to='/speech' imgURL={img5Minute} btnText='START' title='5 Minute Challenge' description='Latihan ngobrol Inggris barenga Tilda selama 5 menit. Bisa dilakuini pas perjalanan PP dari kosan ke kampus.' />
+    <Card to='/lets-talk' imgURL={imgLetsTalk} btnText='CALL' title="Let's Talk" description='Start voice call to other people and talk to them in english' />
   </Container>
 );

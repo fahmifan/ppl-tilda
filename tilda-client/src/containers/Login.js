@@ -1,8 +1,7 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { axios } from '../utils';
 import { AppContext } from '../store';
 
 const Input = styled.input`
@@ -47,6 +46,7 @@ class LoginComp extends React.Component {
   static contextType = AppContext;
 
   state = { ...initState }
+  
   handleInput = (e) => {
     const name = e.target.name
     this.setState({
@@ -57,13 +57,17 @@ class LoginComp extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = this.state;
-    this.context.login({ email, password });
+    this.context.login({ email, password }, () => {
+      this.props.history.replace("/");
+    });
   }
 
   render() {
     const { name, email } = this.state;
 
-    return <Container>
+    return this.context.user.auth
+    ? <Redirect to='/' /> 
+    : <Container>
     <br />
     <h2 style={{ color: '#222', margin: '0px 8px' }}>Login</h2>
     <Form>

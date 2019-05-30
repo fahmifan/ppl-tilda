@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
+import {
+  Link,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom';
 
 import icFocusHome from './icons/focus-icons/home.svg'; 
 import icFocusProgress from './icons/focus-icons/progress.svg'; 
@@ -95,6 +101,7 @@ const BtnBotNav = ({ icon, name, focus = false }) => {
 
 const initState = {
   user: {
+    _id: 0,
     auth: false,
     name: '',
     email: '',
@@ -112,13 +119,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getUser();
+    this.loadUserFromLocal('user')
+      .then(() => {
+        this.getUser();
+      })
+      .catch(console.error);
   }
 
   getUser = async () => {
     try {
-      const { data } = await axios('/users/1', {
+      const { data } = await axios(`/users/${this.state.user._id}`, {
         method: 'GET',
+        headers: {
+          'Authorization': this.state.user.token,
+        }
       });
       this.setState({ user: { ...this.state.user, ...data } });
     } catch (e) {
@@ -130,42 +144,67 @@ class App extends Component {
     this.setState({ btnClicked: num })
   }
 
-  login = async ({ email, password }) => {
+  saveToLocal = (key, data) => {
+    localStorage.setItem(key, data);
+  }
+
+  loadUserFromLocal = (key) => new Promise((resolve, reject) => {
+    const userStr = localStorage.getItem(key);
+    try {
+      const user = userStr.length > 0 ? JSON.parse(userStr) : initState.user
+      this.setState({
+        user
+      }, () => resolve())
+    } catch (e) {
+      console.error(e);
+      reject(e);
+    }
+  });
+
+  login = async ({ email, password }, cb) => {
     try {
       const { data } = await axios('/login', {
         method: 'POST',
         data: { email, password },
       });
 
-      this.setState({
-        user: {
-          ...data.user,
-          auth: true,
-          token: data.token,
-        }
-      })
+      const user = {
+        ...data.user,
+        auth: true,
+        token: data.token,
+      }
 
+      this.saveToLocal('user', JSON.stringify(user))
+
+      this.setState({
+        user,
+      }, () => {
+        cb();
+      });
     } catch (e) {
       console.error(e);
     }
   }
 
   render() {
-    const { btnClicked } = this.state;
+    const { btnClicked, user } = this.state;
 
     return (
       <Router>
         <Provider value={{
-          user: this.state.user,
+          user,
           getUser: this.getUser,
           login: this.login,
         }}>
           <AppBar>Tilda</AppBar>
-          <RouteUser path='/speech' component={Speech} />
-          <RouteUser path='/progress' component={Progress} />
-          <RouteUser path='/lets-talk' component={LetsTalk} />
-          <Route path='/' exact component={Home} />
-          <Route path='/login' exact component={Login} />
+          <Switch>
+            <RouteUser path='/speech' component={Speech} />
+            <RouteUser path='/progress' component={Progress} />
+            <RouteUser path='/lets-talk' component={LetsTalk} />
+            <Route path='/login' exact component={Login} />
+            <Route path='/' exact component={Home} />
+            <Redirect to='/' />
+          </Switch>
 
           <BottomNav>
             <Link to='/' onClick={() => this.handleBotBtn(0)} >

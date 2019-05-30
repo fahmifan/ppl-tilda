@@ -16,18 +16,24 @@ const ProfilePict = styled.div`
   width: 72px;
   height: 72px;
   border: 0px solid black;
-  background: ${({pictURL}) => pictURL ? `url(${pictURL})` : '#222'};
+  background: ${({pictURL}) => pictURL ? `url(${pictURL})` : '#fbfbfb'};
   background-size: cover;
   background-position-x: -5px;
   border-radius: 100%;
   border: 2px solid #FF6D00;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
 `
 
 export const Profile = ({ pictURL, name, email, telp, ...props}) => {
   return <>
   <Container>
-    <ProfilePict pictURL={pictURL} />
+    <ProfilePict pictURL={pictURL}>
+      {pictURL ? null : name[0].toUpperCase()}
+    </ProfilePict>
     <div style={{ maxWidth: '173px', paddingLeft: '8px', boxSizing: 'border-box' }}>
       <h3 style={{ margin: 0, paddingBottom: '4px' }}>{name}</h3>
       <span style={{ fontSize: '14px' }}>{email}</span> <br />
