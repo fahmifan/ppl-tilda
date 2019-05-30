@@ -34,7 +34,7 @@ const login = async ({ userRepo, authRepo, user }) => {
     foundUser.password = null;
   
     const authData = await authRepo.authOfUserID(foundUser._id+"");
-    let token = authData.token;
+    let token = authData ? authData.token : "";
     if (!authData) {
       // gen token and save it to db
       const tokenBuff = crypto.randomBytes(16);
