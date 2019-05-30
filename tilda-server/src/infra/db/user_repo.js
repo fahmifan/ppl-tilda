@@ -13,14 +13,11 @@ const userOfID = async ({ UserModel, userID }) => {
 /**
  * @param {{ UserModel: Model }}
  */
-const save = ({ UserModel, data }) => new Promise((resolve, reject) => {
+const save = async ({ UserModel, data }) => {
   const newUser = new UserModel(data);
-
-  newUser.save((err, user) => {
-    if (err) return reject(err);
-    return resolve(user);
-  });
-});
+  const user = await newUser.save();
+  return Promise.resolve(user);
+};
 
 /**
  * @param {{ UserModel: Model }}
