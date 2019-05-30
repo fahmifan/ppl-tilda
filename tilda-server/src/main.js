@@ -40,6 +40,7 @@ db.once('open', () => {
   
 
   const authSchema = new mongoose.Schema({
+    userID: String,
     token: String,
   });
 

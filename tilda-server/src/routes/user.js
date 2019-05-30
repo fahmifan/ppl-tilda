@@ -1,8 +1,8 @@
 const r = require('express').Router();
-const faker = require('faker');
 const { validate, asyncwrap } = require('../utils')
 const { logger } = require('../logger')
 const { check } = require('express-validator/check');
+const AuthMiddleware = require('./authMiddleware');
 
 /**
  * @typedef {import('mongoose').Model} Model
@@ -11,9 +11,11 @@ const { check } = require('express-validator/check');
 /**
  * @param {{ UserModel: Model }}
  */
-module.exports = ({ UserModel, sAuth, sUser }) => {
+module.exports = ({ sAuth, sUser }) => {
+  const authorize = AuthMiddleware({ sAuth });
   // create user
-  r.post('/users/', [
+  r.post('/users/',
+  [
     check('name').exists().isString().withMessage('unknown name'),
     check('pictURL').exists().isString().withMessage('unknown pictURL'),
     check('email').exists().isString().withMessage('unknown email'),
@@ -32,7 +34,7 @@ module.exports = ({ UserModel, sAuth, sUser }) => {
   }));
   
   // get a user
-  r.get('/users/:id', asyncwrap(async (req, res) => {  
+  r.get('/users/:id', authorize.user, asyncwrap(async (req, res) => {  
     const user = await sUser.userOfID(req.params.id);
     if (!user) return res.status(404).json({ error: "user not found" });
     return res.status(200).json(user);
@@ -40,12 +42,13 @@ module.exports = ({ UserModel, sAuth, sUser }) => {
 
   // update user progress
   r.post('/users/:id/progress',
+    authorize.user,
     [
       check('unixdate').exists().isNumeric().withMessage('unknown unixdate'),
       // duration is in second
       check('duration').exists().isNumeric().withMessage('unknown duration'),
     ], 
-    validate, 
+    validate,
     asyncwrap(async (req, res) => {
       const { unixdate, duration } = req.body;
 

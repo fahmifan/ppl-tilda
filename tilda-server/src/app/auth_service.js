@@ -1,6 +1,5 @@
 const { logger } = require('../logger');
 const util = require('../utils');
-const { promisify } = require('util');
 const crypto = require('crypto');
 
 const regUser = async ({ userRepo, user }) => {
@@ -34,10 +33,15 @@ const login = async ({ userRepo, authRepo, user }) => {
     if (!isPwMatch) return Promise.resolve(null);
     foundUser.password = null;
   
-    // gen token and save it to db
-    const tokenBuff = crypto.randomBytes(16);
-    const token = tokenBuff.toString('hex');
-    await authRepo.save({ token });
+    const authData = await authRepo.authOfUserID(foundUser._id+"");
+    let token = authData.token;
+    if (!authData) {
+      // gen token and save it to db
+      const tokenBuff = crypto.randomBytes(16);
+      token = tokenBuff.toString('hex');
+
+      await authRepo.save({ token, userID: foundUser._id+"" });
+    }
 
     return Promise.resolve({ user: foundUser, token });
   } catch(e) {
@@ -46,7 +50,13 @@ const login = async ({ userRepo, authRepo, user }) => {
   }
 }
 
+const user = async ({ authRepo, token }) => {
+  const authData = await authRepo.authOfToken(token);
+  return authData;
+} 
+
 module.exports = ({ userRepo, authRepo }) => ({
   regUser: (user) => regUser({ userRepo, user }),
   login: (user) => login({ userRepo, authRepo, user }),
+  user: (token) => user({ authRepo, token }),
 });
