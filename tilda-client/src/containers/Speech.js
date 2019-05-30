@@ -166,6 +166,7 @@ class SpeechComp extends React.Component {
     try {
       await axios(`/users/${userId}/progress`, {
         method: 'POST',
+        headers: this.context.authHeaders,
         data: {
           duration,
           unixdate: (new Date(Date.now())).getTime(),

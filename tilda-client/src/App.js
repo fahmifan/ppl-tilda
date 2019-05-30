@@ -213,6 +213,9 @@ class App extends Component {
           getUser: this.getUser,
           login: this.login,
           register: this.register,
+          authHeaders: {
+            'Authorization': user.token,
+          }
         }}>
           <AppBar>Tilda</AppBar>
           <Switch>
