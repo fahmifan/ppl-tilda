@@ -4,7 +4,6 @@ const { validate, asyncwrap } = require('../utils')
 const { logger } = require('../logger')
 const { check } = require('express-validator/check');
 
-
 /**
  * @typedef {import('mongoose').Model} Model
  */
@@ -12,7 +11,7 @@ const { check } = require('express-validator/check');
 /**
  * @param {{ UserModel: Model }}
  */
-module.exports = ({ UserModel }) => {
+module.exports = ({ UserModel, sAuth }) => {
   // create user
   r.post('/users/', [
     check('name').exists().isString().withMessage('unknown name'),
@@ -27,21 +26,13 @@ module.exports = ({ UserModel }) => {
       name, pictURL, email, telp, password
     } = req.body
 
-    const newUser = new UserModel({
-      name, pictURL, email, telp, password
-    });
-
-    newUser.save((err, user) => {
-      if (err) {
-        console.error(err);
-        return res.status(400).json({ error: err.message });
-      }
-      return res.status(200).json({ message: 'created' });
-    });  
+    const user = await sAuth.regUser({ name, pictURL, email, telp, password });
+    if (!user) return res.status(400).json({ error: "cannot register user" });
+    return res.status(200).json(user);
   }));
   
   // get a user
-  r.get('/users/:id', (req, res) => {
+  r.get('/users/:id', asyncwrap(async (req, res) => {  
     UserModel.find((err, users) => {
       if (err) {
         console.error('error', err);
@@ -52,7 +43,7 @@ module.exports = ({ UserModel }) => {
   
       return res.status(200).json(userInfo);
     })
-  });
+  }));
 
   // update user progress
   r.post('/users/:id/progress',

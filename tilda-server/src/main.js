@@ -38,7 +38,13 @@ db.once('open', () => {
     callHistory: Array,
   });
   
+
+  const authSchema = new mongoose.Schema({
+    token: String,
+  });
+
   const UserModel = mongoose.model('User', userSchema);
+  const AuthModel = mongoose.model('Auth', authSchema);
 
   // parse application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -46,9 +52,11 @@ db.once('open', () => {
   app.use(bodyParser.json());
 
   app.use(loggerMiddleware());
-  app.use('/', express.static(path.join(__dirname, '../frontend')));
   app.get('/api/ping', (req, res) => res.status(200).json({ message: 'pong' }));
-  app.use('/api', router({ UserModel }));
+  app.use('/api', router({
+    UserModel,
+    AuthModel
+  }));
   
   io.on('connection', (socket) => {
     console.log('#connect')
