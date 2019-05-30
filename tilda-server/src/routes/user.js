@@ -17,7 +17,6 @@ module.exports = ({ sAuth, sUser }) => {
   r.post('/users/',
   [
     check('name').exists().isString().withMessage('unknown name'),
-    check('pictURL').exists().isString().withMessage('unknown pictURL'),
     check('email').exists().isString().withMessage('unknown email'),
     check('password').exists().isString().withMessage('unknown password'),
     check('telp').exists().isString().withMessage('unknown telp'),

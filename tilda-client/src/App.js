@@ -25,6 +25,7 @@ import {
   Progress,
   LetsTalk,
   Login,
+  Register,
 } from './containers'
 
 const theme = {
@@ -151,7 +152,7 @@ class App extends Component {
   loadUserFromLocal = (key) => new Promise((resolve, reject) => {
     const userStr = localStorage.getItem(key);
     try {
-      const user = userStr.length > 0 ? JSON.parse(userStr) : initState.user
+      const user = userStr && userStr.length > 0 ? JSON.parse(userStr) : initState.user
       this.setState({
         user
       }, () => resolve())
@@ -186,6 +187,22 @@ class App extends Component {
     }
   }
 
+  register = async ({ email, password, telp, name, }, cb) => {
+    try {
+      await axios('/users', {
+        method: 'POST',
+        data: {
+          email, password, telp, name
+        }
+      });
+
+      cb();
+    } catch (e) {
+      console.error(e);
+      window.alert('Register fail')
+    }
+  } 
+
   render() {
     const { btnClicked, user } = this.state;
 
@@ -195,14 +212,16 @@ class App extends Component {
           user,
           getUser: this.getUser,
           login: this.login,
+          register: this.register,
         }}>
           <AppBar>Tilda</AppBar>
           <Switch>
             <RouteUser path='/speech' component={Speech} />
             <RouteUser path='/progress' component={Progress} />
             <RouteUser path='/lets-talk' component={LetsTalk} />
+            <RouteUser path='/' exact component={Home} />
             <Route path='/login' exact component={Login} />
-            <Route path='/' exact component={Home} />
+            <Route path='/register' exact component={Register} />
             <Redirect to='/' />
           </Switch>
 
