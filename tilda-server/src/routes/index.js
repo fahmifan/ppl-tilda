@@ -1,5 +1,8 @@
 const { Router } = require('express')
+
 const AuthService = require('../app/auth_service');
+const UserService = require('../app/user_service');
+
 const UserRepository = require('../infra/db/user_repo');
 const AuthRepository = require('../infra/db/auth_repo');
 
@@ -12,8 +15,9 @@ module.exports = (model) => {
   const userRepo = UserRepository({ UserModel });
   const authRepo = AuthRepository({ AuthModel });
   const sAuth = AuthService({ userRepo, authRepo });
+  const sUser = UserService({ userRepo });
 
-  r.use(user({ sAuth }));
+  r.use(user({ sAuth, sUser }));
   r.use(login({ UserModel, sAuth }));
 
   return r;

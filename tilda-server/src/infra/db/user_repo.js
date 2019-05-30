@@ -6,11 +6,9 @@
  * @param {{ UserModel: Model }}
  */
 const userOfID = async ({ UserModel, userID }) => {
-  UserModel.findOne({ _id: userID }, (err, user) => {
-    if (err) return Promise.reject(err);
-    return Promise.resolve(user)
-  });
-}
+  const user = await UserModel.findById(userID);
+  return Promise.resolve(user)
+};
 
 /**
  * @param {{ UserModel: Model }}
@@ -27,15 +25,26 @@ const save = ({ UserModel, data }) => new Promise((resolve, reject) => {
 /**
  * @param {{ UserModel: Model }}
  */
-const userOfEmail = ({ UserModel, email }) => new Promise((resolve, reject) => {
-  UserModel.findOne({ email }, (err, user) => {
-    if (err) return reject(err);
-    return resolve(user);
-  });
-});
+const userOfEmail = async ({ UserModel, email }) => {
+  try {
+    const user = await UserModel.findOne({ email });
+    return Promise.resolve(user);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+const saveProgress = async ({ UserModel, userID, progress }) => {
+  const user = await UserModel.findById(userID);
+  console.log('progress', progress);
+  user.progress.push(progress);
+  await user.save();
+  return Promise.resolve(user);
+};
 
 module.exports = ({ UserModel }) => ({
-  userOfID: (id) => userOfID({ UserModel, userID: id }),
+  userOfID: (userID) => userOfID({ UserModel, userID }),
   userOfEmail: (email) => userOfEmail({ UserModel, email }),
   save: (data) => save({ UserModel, data }),
+  saveProgress: (userID, progress) => saveProgress({ UserModel, userID, progress }),
 });

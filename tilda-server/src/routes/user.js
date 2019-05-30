@@ -11,7 +11,7 @@ const { check } = require('express-validator/check');
 /**
  * @param {{ UserModel: Model }}
  */
-module.exports = ({ UserModel, sAuth }) => {
+module.exports = ({ UserModel, sAuth, sUser }) => {
   // create user
   r.post('/users/', [
     check('name').exists().isString().withMessage('unknown name'),
@@ -33,16 +33,9 @@ module.exports = ({ UserModel, sAuth }) => {
   
   // get a user
   r.get('/users/:id', asyncwrap(async (req, res) => {  
-    UserModel.find((err, users) => {
-      if (err) {
-        console.error('error', err);
-        return res.status(400).json({ error: err.message });
-      }
-  
-      const userInfo = users.length >= req.params.id-1 ? users[req.params.id-1] : {}
-  
-      return res.status(200).json(userInfo);
-    })
+    const user = await sUser.userOfID(req.params.id);
+    if (!user) return res.status(404).json({ error: "user not found" });
+    return res.status(200).json(user);
   }));
 
   // update user progress
@@ -54,13 +47,9 @@ module.exports = ({ UserModel, sAuth }) => {
     ], 
     validate, 
     asyncwrap(async (req, res) => {
-      const userId = req.params.id;
       const { unixdate, duration } = req.body;
 
-      const user = await UserModel.findById(userId);
-      user.progress.push({ duration, unixdate });
-      await user.save();
-
+      const user = await sUser.saveProgress(req.params.id, { unixdate, duration });
       return res.status(200).json(user);
     }
   ));
