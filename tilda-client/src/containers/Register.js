@@ -3,25 +3,7 @@ import { withRouter, Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { AppContext } from '../store';
-
-const Input = styled.input`
-  padding: 8px;
-  border: 0px;
-  border-radius: 4px;
-  margin: 4px 0px;
-  width: 100%;
-`
-
-const Form = styled.div`
-  padding: 8px;
-`
-
-const InputGroup = ({ type = '', value, name, title, handler }) => <>
-  <div style={{ margin: '8px 0px' }}>
-    <label style={{ color: '#444' }} htmlFor={name}><small>{title}</small></label> <br />
-    <Input type={type} name={name} onChange={(e) => handler(e)} value={value} />
-  </div>
-</>
+import { InputGroup } from '../components'
 
 const Button = styled.button`
   border: 0px;
@@ -72,7 +54,7 @@ class RegisterComp extends React.Component {
     : <Container>
     <br />
     <h2 style={{ color: '#222', margin: '0px 8px' }}>Register</h2>
-    <Form>
+    <form style={{ padding: '8px' }}>
       <InputGroup title='Name' type='name' name='name' handler={(e) => this.handleInput(e)} value={name} />
       <InputGroup title='Email' type='email' name='email' handler={(e) => this.handleInput(e)} value={email} />
       <InputGroup title='Password' type='password' name='password' handler={(e) => this.handleInput(e)} value={password} />
@@ -81,7 +63,7 @@ class RegisterComp extends React.Component {
       <Link to='/login' style={{ textDecoration: 'none', fontSize: '14px', marginLeft: '8px', color: '#FF9800' }}>
         Login?
       </Link>
-    </Form>
+    </form>
     </Container> 
   }
 };
