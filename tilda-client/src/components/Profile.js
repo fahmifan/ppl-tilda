@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import camIcon from '../icons/outline-camera_alt-24px.svg'
 
 const Container = styled.div`
   background: #fff;
@@ -18,7 +19,6 @@ const ProfilePict = styled.div`
   border: 0px solid black;
   background: ${({pictURL}) => pictURL ? `url(${pictURL})` : '#fbfbfb'};
   background-size: cover;
-  background-position-x: -5px;
   border-radius: 100%;
   border: 2px solid #FF6D00;
   box-sizing: border-box;
@@ -28,12 +28,32 @@ const ProfilePict = styled.div`
   font-size: 36px;
 `
 
-export const Profile = ({ pictURL, name, email, telp, ...props}) => {
+const Img = styled.img`
+  position: relative;
+  bottom: 19px;
+  left: 45px;
+  background: #fff;
+  border-radius: 100%;
+  padding: 1px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+`
+
+export const Profile = ({ pictURL, name, email, telp, submitPict, updatePictHandler, onInputFile, onFileSelect}) => {
   return <>
   <Container>
-    <ProfilePict pictURL={pictURL}>
-      {pictURL ? null : name[0].toUpperCase()}
-    </ProfilePict>
+    <div style={{ height: '72px' }}>
+      <ProfilePict pictURL={pictURL}>
+        {pictURL ? null : name[0].toUpperCase()}
+      </ProfilePict>
+      <form onSubmit={submitPict}>
+        <Img onClick={updatePictHandler} src={camIcon} />
+        <input type='file' ref={input => onInputFile(input)} onChange={(e) => onFileSelect(e)} style={{ display: 'none' }} />
+      </form>
+    </div>
     <div style={{ maxWidth: '173px', paddingLeft: '8px', boxSizing: 'border-box' }}>
       <h3 style={{ margin: 0, paddingBottom: '4px' }}>{name}</h3>
       <span style={{ fontSize: '14px' }}>{email}</span> <br />

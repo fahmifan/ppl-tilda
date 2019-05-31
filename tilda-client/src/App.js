@@ -152,6 +152,7 @@ class App extends Component {
           'Authorization': this.state.user.token,
         }
       });
+      console.log(data);
       this.setState({ user: { ...this.state.user, ...data } });
     } catch (e) {
       console.error(e);

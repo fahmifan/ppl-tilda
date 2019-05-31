@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { axios } from '../utils'
 import { AppContext } from '../store';
 import {
   Profile,
@@ -88,6 +89,8 @@ const ProgressBoard = ({ doneDates = [] }) => {
 }
 
 const Container = styled.main`
+  max-width: 400px;
+  margin: auto;
   padding: 16px;
   margin-top: 8px;
   margin-bottom: 48px;
@@ -95,12 +98,53 @@ const Container = styled.main`
 
 export const Progress = class ProgressComp extends React.Component {
   static contextType = AppContext;
+  inputFile = React.createRef();
+
+  state = {
+    pictFile: null,
+    photoURL: '',
+  }
 
   componentDidMount() {
     this.context.getUser();
   }
 
+  updatePictHandler = (e) => {
+    this.inputFile.click();
+  }
+
+  onFileSelect = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('photo', file);
+
+    try {
+      const { data } = await axios(`/users/${this.context.user._id}/photo`, {
+        method: 'POST',
+        headers: this.context.authHeaders,
+        data: formData,
+      });
+      this.setState({
+        photoURL: data.photoPath
+      });
+    } catch (e) {
+      console.error(e);
+      alert('Failed update photo');
+    }
+  }
+
+  submitPict = (e) => {
+    e.preventDefault();
+    const pict = this.inputFile;
+    console.log(pict);
+  }
+
+  onInputFile = (ref) => {
+    this.inputFile = ref;
+  }
+
   render() {
+    const { photoURL } = this.state;
     const { user } = this.context;
     // list of user practice days
     const days = [];
@@ -116,10 +160,14 @@ export const Progress = class ProgressComp extends React.Component {
 
     return <Container>
       <Profile
-        pictURL={user.pictURL}
+        pictURL={photoURL ? photoURL : user.pictURL}
         name={user.name}
+        submitPict={this.submitPict}
         telp={user.telp}
-        email={user.email} />
+        onFileSelect={this.onFileSelect}
+        email={user.email}
+        onInputFile={this.onInputFile}
+        updatePictHandler={this.updatePictHandler} />
 
       <ProgressBoard doneDates={days} />
       <div style={{
