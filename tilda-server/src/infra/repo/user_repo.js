@@ -14,9 +14,21 @@ const userOfID = async ({ UserModel, userID }) => {
  * @param {{ UserModel: Model }}
  */
 const save = async ({ UserModel, data }) => {
+  // update user
+  if (data._id) {
+    const user = await UserModel.findById(data._id)
+    Object.keys(data).forEach(k => {
+      user[k] = data[k]
+    });
+
+    const updatedUser = await user.save();
+    return Promise.resolve(updatedUser);
+  }
+
+  // create new
   const newUser = new UserModel(data);
-  const user = await newUser.save();
-  return Promise.resolve(user);
+  const savedUser = await newUser.save();
+  return Promise.resolve(savedUser);
 };
 
 /**

@@ -22,6 +22,7 @@ services:
       - mongodb
     volumes:
       - ./tilda-server:/usr/app
+      - ./tilda-server/static:/usr/app/static
     environment:
       - DB_URL=mongodb://mongodb:27017/tilda
       - ENV=development

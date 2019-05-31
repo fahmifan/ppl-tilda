@@ -36,6 +36,7 @@ db.once('open', () => {
   const services = {
     sAuth: service.auth({ userRepo, authRepo }),
     sUser: service.user({ userRepo }),
+    sImage: service.image({ userRepo }),
   }
 
   // parse application/x-www-form-urlencoded

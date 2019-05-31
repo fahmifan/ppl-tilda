@@ -1,6 +1,5 @@
 const authOfToken = async ({ AuthModel, token }) => {
   const authData = await AuthModel.findOne({ token });
-  console.log(token, authData);
   return Promise.resolve(authData);
 };
 

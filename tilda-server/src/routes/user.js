@@ -11,7 +11,7 @@ const AuthMiddleware = require('./authMiddleware');
 /**
  * @param {{ UserModel: Model }}
  */
-module.exports = ({ sAuth, sUser }) => {
+module.exports = ({ sAuth, sUser, sImage }) => {
   const authorize = AuthMiddleware({ sAuth });
   // create user
   r.post('/users/',
@@ -55,6 +55,11 @@ module.exports = ({ sAuth, sUser }) => {
       return res.status(200).json(user);
     }
   ));
+
+  r.post('/users/:id/photo', authorize.user, sImage.upPhoto, asyncwrap(async (req, res) => {
+    const photoPath = await sImage.savePhoto(req.params.id, req.file.originalname);
+    return res.status(200).json({ photoPath });
+  }));
 
   return r;
 }
