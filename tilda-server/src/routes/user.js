@@ -2,7 +2,7 @@ const r = require('express').Router();
 const { validate, asyncwrap } = require('../utils')
 const { logger } = require('../logger')
 const { check } = require('express-validator/check');
-const AuthMiddleware = require('./authMiddleware');
+const AuthMiddleware = require('./auth_middleware');
 
 /**
  * @typedef {import('mongoose').Model} Model
