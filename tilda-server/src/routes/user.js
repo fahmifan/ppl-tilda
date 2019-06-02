@@ -1,16 +1,8 @@
 const r = require('express').Router();
 const { validate, asyncwrap } = require('../utils')
-const { logger } = require('../logger')
 const { check } = require('express-validator/check');
 const AuthMiddleware = require('./auth_middleware');
 
-/**
- * @typedef {import('mongoose').Model} Model
- */
-
-/**
- * @param {{ UserModel: Model }}
- */
 module.exports = ({ sAuth, sUser, sImage }) => {
   const authorize = AuthMiddleware({ sAuth });
   // create user
@@ -40,22 +32,18 @@ module.exports = ({ sAuth, sUser, sImage }) => {
   }));
 
   // update user progress
-  r.post('/users/:id/progress',
-    authorize.user,
-    [
+  r.post('/users/:id/progress', authorize.user, [
       check('unixdate').exists().isNumeric().withMessage('unknown unixdate'),
       // duration is in second
       check('duration').exists().isNumeric().withMessage('unknown duration'),
-    ], 
-    validate,
-    asyncwrap(async (req, res) => {
+    ], validate, asyncwrap(async (req, res) => {
       const { unixdate, duration } = req.body;
-
       const user = await sUser.saveProgress(req.params.id, { unixdate, duration });
       return res.status(200).json(user);
-    }
-  ));
+    })
+  );
 
+  // upload user photo
   r.post('/users/:id/photo', authorize.user, sImage.upPhoto, asyncwrap(async (req, res) => {
     const photoPath = await sImage.savePhoto(req.params.id, req.file.originalname);
     return res.status(200).json({ photoPath });
