@@ -1,8 +1,7 @@
-version: '2'
+version: '3.4'
 services:
   mongodb:
     container_name: mongodb
-    mem_limit: 200m
     image: mvertes/alpine-mongo
     volumes:
       - tilda-mongo:/data/db
@@ -11,14 +10,12 @@ services:
 
   tilda-server:
     container_name: tilda-server
-    mem_limit: 200m
     restart: always
-    build: ./tilda-server
+    image: cloud.canister.io:5000/miun173/tilda-server:${TILDA_SERVER_VERSION}
     depends_on: 
       - mongodb
     volumes:
-      - ./tilda-server:/usr/app
-      - ./tilda-server/static:/usr/app/static
+      - tilda-static:/usr/app/static
     environment:
       - DB_URL=mongodb://mongodb:27017/tilda
       - ENV=development
@@ -28,38 +25,29 @@ services:
 
   tilda-client:
     container_name: tilda-client
-    mem_limit: 350m
-    build: 
-      context: ./tilda-client
-      dockerfile: Dockerfile-dev
+    image: cloud.canister.io:5000/miun173/tilda-client:${TILDA_CLIENT_VERSION}
     depends_on:
       - tilda-server
-    volumes:
-      - ./tilda-client:/src/app
     ports:
-      - '3000:3000'
+      - '3000:80'
+    expose:
+      - '80'
 
   tilda-bot:
     restart: always
     container_name: tilda-bot
-    image: tilda-bot
-    build: ./tilda-bot
+    image: cloud.canister.io:5000/miun173/tilda-bot:${TILDA_BOT_VERSION}
     environment:
       - FLASK_APP=app.py
       - FLASK_DEBUG=1
       - DB_URL=mongodb://mongodb:27017/tilda-bot
       - DB_ADAPTER=chatterbot.storage.MongoDatabaseAdapter
-    volumes:
-      - "./tilda-bot:/app"
     ports:
       - '5000:5000'
-    mem_limit: 300m
 
-
-  proxy:
+  nginx:
     build: ./proxy
-    container_name: proxy
-    mem_limit: 10m
+    container_name: nginx
     depends_on:
       - tilda-server
       - tilda-client
@@ -68,6 +56,17 @@ services:
       - 443:443
     volumes:
       - ./proxy:/etc/nginx/conf.d/
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    logging:
+      driver: "journald"
 
 volumes:
   tilda-mongo:
+  tilda-static:

@@ -17,6 +17,9 @@ services:
   tilda-server:
     container_name: tilda-server
     restart: always
+    build:
+      context: ../mars-inventory-service
+      dockerfile: Dockerfile-dev
     build: ./tilda-server
     depends_on: 
       - mongodb
@@ -32,7 +35,9 @@ services:
 
   tilda-client:
     container_name: tilda-client
-    build: ./tilda-client
+    build: 
+      context: ./tilda-client
+      dockerfile: Dockerfile-dev
     depends_on:
       - tilda-server
     volumes:
