@@ -25,12 +25,13 @@ const regUser = async ({ userRepo, user }) => {
 }
 
 const login = async ({ userRepo, authRepo, user }) => {
+  const defresp = { user: null, token: '', };
   try {
     const foundUser = await userRepo.userOfEmail(user.email);
-    if (!foundUser) return Promise.resolve(null);
+    if (!foundUser) return Promise.resolve(defresp);
   
     const isPwMatch = await util.password.check(user.password, foundUser.password);
-    if (!isPwMatch) return Promise.resolve(null);
+    if (!isPwMatch) return Promise.resolve(defresp);
     foundUser.password = null;
   
     const authData = await authRepo.authOfUserID(foundUser._id+"");
