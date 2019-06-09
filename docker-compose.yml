@@ -55,7 +55,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./proxy:/etc/nginx/conf.d/
+      - ./proxy/prod:/etc/nginx/conf.d/
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   
   certbot:

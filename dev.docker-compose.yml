@@ -70,7 +70,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./proxy:/etc/nginx/conf.d/
+      - ./proxy/devv:/etc/nginx/conf.d/
 
 volumes:
   tilda-mongo:
