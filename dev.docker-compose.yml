@@ -42,8 +42,8 @@ services:
       - tilda-server
     volumes:
       - ./tilda-client:/src/app
-    ports:
-      - '3000:3000'
+    expose:
+      - "3000"
 
   tilda-bot:
     restart: always
@@ -61,8 +61,10 @@ services:
       - "5000"
 
   proxy:
-    build: ./proxy
-    container_name: proxy
+    build:
+      context: ./proxy
+      dockerfile: dev.Dockerfile
+    container_name: nginx
     depends_on:
       - tilda-server
       - tilda-client
@@ -70,7 +72,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./proxy/devv:/etc/nginx/conf.d/
+      - ./proxy/dev:/etc/nginx/conf.d/
 
 volumes:
   tilda-mongo:
