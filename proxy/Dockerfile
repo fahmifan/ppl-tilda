@@ -1,7 +1,5 @@
-FROM nginx:alpine
+FROM nginx:1.15.12-alpine
 
 RUN rm /etc/nginx/conf.d/*
 
-COPY nginx.conf /etc/nginx/conf.d/
-
-CMD ["nginx", "-g", "daemon off;"]
+COPY ./prod/nginx.conf /etc/nginx/conf.d/
