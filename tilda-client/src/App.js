@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import {
   Link,
@@ -20,14 +20,12 @@ import { Provider } from './store';
 import { RouteUser } from './routes';
 
 // containers
-import {
-  Home,
-  Speech,
-  Progress,
-  LetsTalk,
-  Login,
-  Register,
-} from './containers'
+const Home = lazy(() => import('./containers/Home'))
+const Speech = lazy(() => import('./containers/Speech'))
+const Progress = lazy(() => import('./containers/Progress'))
+const LetsTalk = lazy(() => import('./containers/LetsTalk'))
+const Login = lazy(() => import('./containers/Login'))
+const Register = lazy(() => import('./containers/Register'))
 
 const theme = {
   color: {
@@ -233,46 +231,48 @@ class App extends Component {
 
     return (
       <Router>
-        <Provider value={{
-          user,
-          getUser: this.getUser,
-          login: this.login,
-          register: this.register,
-          authHeaders: {
-            'Authorization': user.token,
-          }
-        }}>
-          <AppBar><span>Tilda</span>
-            { user.auth
-                ? <Link style={{ textDecoration: 'none', color: '#fff' }} to="/logout"><Button>Logout</Button></Link>
-                : <Link style={{ textDecoration: 'none', color: '#fff' }} to="/login"><Button>Login</Button></Link>
+        <Suspense fallback={<div>...</div>}>
+          <Provider value={{
+            user,
+            getUser: this.getUser,
+            login: this.login,
+            register: this.register,
+            authHeaders: {
+              'Authorization': user.token,
             }
-          </AppBar>
-          <Switch>
-            <RouteUser path='/speech' component={Speech} />
-            <RouteUser path='/progress' component={Progress} />
-            <RouteUser path='/lets-talk' component={LetsTalk} />
-            <Route path='/' exact component={Home} />
-            <Route path='/login' exact component={Login} />
-            <Route path='/register' exact component={Register} /> 
-            <Route path='/logout' component={withRouter(({ history }) => {
-              this.logout();
-              history.replace("/");
+          }}>
+            <AppBar><span>Tilda</span>
+              { user.auth
+                  ? <Link style={{ textDecoration: 'none', color: '#fff' }} to="/logout"><Button>Logout</Button></Link>
+                  : <Link style={{ textDecoration: 'none', color: '#fff' }} to="/login"><Button>Login</Button></Link>
+              }
+            </AppBar>
+            <Switch>
+              <RouteUser path='/speech' component={Speech} />
+              <RouteUser path='/progress' component={Progress} />
+              <RouteUser path='/lets-talk' component={LetsTalk} />
+              <Route path='/' exact component={Home} />
+              <Route path='/login' exact component={Login} />
+              <Route path='/register' exact component={Register} /> 
+              <Route path='/logout' component={withRouter(({ history }) => {
+                this.logout();
+                history.replace("/");
 
-              return <></>
-            })} />
-            <Redirect to='/' />
-          </Switch>
+                return <></>
+              })} />
+              <Redirect to='/' />
+            </Switch>
 
-          { user.auth && <BottomNav>
-            <Link to='/' onClick={() => this.handleBotBtn(0)} >
-              <BtnBotNav name='Home' focus={btnClicked === 0} icon={btnClicked === 0 ? icFocusHome : icBlurHome} />
-            </Link>
-            <Link to='/progress' onClick={() => this.handleBotBtn(2)} >
-              <BtnBotNav name='Progress' focus={btnClicked === 2} icon={btnClicked === 2 ? icFocusProgress : icBlurProgress} />
-            </Link>
-          </BottomNav>}
-        </Provider>
+            { user.auth && <BottomNav>
+              <Link to='/' onClick={() => this.handleBotBtn(0)} >
+                <BtnBotNav name='Home' focus={btnClicked === 0} icon={btnClicked === 0 ? icFocusHome : icBlurHome} />
+              </Link>
+              <Link to='/progress' onClick={() => this.handleBotBtn(2)} >
+                <BtnBotNav name='Progress' focus={btnClicked === 2} icon={btnClicked === 2 ? icFocusProgress : icBlurProgress} />
+              </Link>
+            </BottomNav>}
+          </Provider>
+        </Suspense>
       </Router>
     );
   }

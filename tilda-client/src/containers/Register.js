@@ -69,3 +69,5 @@ class RegisterComp extends React.Component {
 };
 
 export const Register = withRouter(RegisterComp);
+
+export default Register;

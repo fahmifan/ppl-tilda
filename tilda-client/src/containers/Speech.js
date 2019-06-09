@@ -222,3 +222,5 @@ class SpeechComp extends React.Component {
 }
 
 export const Speech = withRouter(SpeechComp);
+
+export default Speech;

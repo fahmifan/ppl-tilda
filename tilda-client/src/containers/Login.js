@@ -62,3 +62,5 @@ class LoginComp extends React.Component {
 };
 
 export const Login = withRouter(LoginComp);
+
+export default Login;

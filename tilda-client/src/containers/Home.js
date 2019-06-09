@@ -89,3 +89,5 @@ export const Home = () => (
     <Card to='/lets-talk' imgURL={imgLetsTalk} btnText='CALL' title="Let's Talk" description='Start voice call to other people and talk to them in english' />
   </Container>
 );
+
+export default Home;

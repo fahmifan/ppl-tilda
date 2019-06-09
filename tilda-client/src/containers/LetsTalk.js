@@ -272,3 +272,5 @@ export class LetsTalk extends React.Component {
     </>
   } 
 }
+
+export default LetsTalk;

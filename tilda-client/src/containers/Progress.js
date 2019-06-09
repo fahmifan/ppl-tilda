@@ -183,3 +183,5 @@ export const Progress = class ProgressComp extends React.Component {
     </Container>
   }
 }
+
+export default Progress;
