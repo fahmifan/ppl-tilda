@@ -1,3 +1,4 @@
 node_modules
 frontend/*
 static/upload/photo/*
+apidoc/

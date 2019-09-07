@@ -4,6 +4,17 @@ const { validate, asyncwrap } = require('../utils')
 
 
 module.exports = ({ sAuth }) => {
+  /**
+   * @api {get} /login Login
+   * @apiName Login
+   * @apiGroup Auth
+   * 
+   * @apiParam {String} email User email
+   * @apiParam {String} password User password
+   * 
+   * @apiSuccess {Object} user Object
+   * @apiSuccess {String} token User token
+   */
   r.post('/login', [
     check('email').isEmail().exists().withMessage('invalid email'),
     check('password').isString().exists().withMessage('invalid password')

@@ -5,7 +5,18 @@ const AuthMiddleware = require('./auth_middleware');
 
 module.exports = ({ sAuth, sUser, sImage }) => {
   const authorize = AuthMiddleware({ sAuth });
-  // create user
+  /**
+   * @api {post} /users Register (Create User)
+   * @apiName CreateUser
+   * @apiGroup User
+   * 
+   * @apiParam {String} name Name of User
+   * @apiParam {String} email Email of User
+   * @apiParam {String} password Password of User
+   * @apiParam {String} telp Telphone number of User
+   * 
+   * @apiSuccess {Object} user User data
+   */
   r.post('/users/',
   [
     check('name').exists().isString().withMessage('unknown name'),
@@ -24,14 +35,34 @@ module.exports = ({ sAuth, sUser, sImage }) => {
     return res.status(200).json(user);
   }));
   
-  // get a user
+  /**
+   * @api {get} /user/:id Get User By ID
+   * @apiName GetUserByID
+   * @apiGroup User
+   * 
+   * @apiHeader {String} Authorization
+   * @apiParam {String} id ID of User
+   * 
+   * @apiSuccess {Object} user User data
+   */
   r.get('/users/:id', authorize.user, asyncwrap(async (req, res) => {  
     const user = await sUser.userOfID(req.params.id);
     if (!user) return res.status(404).json({ error: "user not found" });
     return res.status(200).json(user);
   }));
 
-  // update user progress
+  /**
+   * @api {post} /user/:id/progress Add Progress
+   * @apiName AddProgress
+   * @apiGroup User
+   * 
+   * @apiHeader {String} Authorization Token userd for authorization 
+   * @apiParam {String} id ID of User
+   * @apiParam {Number} unixdate Unix datetime
+   * @apiParam {Number} duration Duration of progress
+   * 
+   * @apiSuccess {Object} user User data
+   */
   r.post('/users/:id/progress', authorize.user, [
       check('unixdate').exists().isNumeric().withMessage('unknown unixdate'),
       // duration is in second
@@ -43,7 +74,16 @@ module.exports = ({ sAuth, sUser, sImage }) => {
     })
   );
 
-  // upload user photo
+  /**
+   * @api {post} /user/:id/photo Upload Photo
+   * @apiName UploadPhoto
+   * @apiGroup User
+   * 
+   * @apiHeader {String} Authorization Token userd for authorization 
+   * @apiParam {String} id ID of User
+   * @apiParam {Object} photo Photo  
+   * @apiSuccess {Object} user User data
+   */
   r.post('/users/:id/photo', authorize.user, sImage.upPhoto, asyncwrap(async (req, res) => {
     const photoPath = await sImage.savePhoto(req.params.id, req.file.originalname);
     return res.status(200).json({ photoPath });

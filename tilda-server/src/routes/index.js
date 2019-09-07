@@ -7,6 +7,7 @@ const r = Router();
 module.exports = ({ sAuth, sUser, sImage }) => {
   const photoPath = path.join(process.cwd(), 'static', 'upload', 'photo');
 
+  r.use('/docs', static(path.join(__dirname, '..', '..', 'apidoc')));
   r.use('/image', static(photoPath));
   r.use(user({ sAuth, sUser, sImage }));
   r.use(login({ sAuth }));
