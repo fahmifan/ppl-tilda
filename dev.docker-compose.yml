@@ -11,8 +11,8 @@ services:
       start_period: 40s
     volumes:
       - tilda-mongo:/data/db
-    expose: 
-      - "27017"
+    ports: 
+      - 27017:27017
 
   tilda-server:
     container_name: tilda-server
@@ -30,8 +30,8 @@ services:
       - DB_URL=mongodb://mongodb:27017/tilda
       - ENV=development
       - APP_PORT='8080'
-    expose:
-      - "8080"
+    ports:
+      - 8080:8080
 
   tilda-client:
     container_name: tilda-client
