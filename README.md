@@ -162,6 +162,16 @@ status code 200
 }
 ```
 
+## Bot: Train
+```bash
+GET /bot/train
+```
+
+### Response
+```
+status code 200
+```
+
 ## Bot: Talk
 ```bash
 POST /bot/talk
@@ -181,3 +191,4 @@ status code 200
     reply: String
 }
 ```
+
