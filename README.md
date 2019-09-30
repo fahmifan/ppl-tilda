@@ -141,7 +141,7 @@ POST /api/user/:id/photo
 }
 ```
 
-### Body: Multipart From Data
+### Body: Multipart Form Data
 ```bash
 {
     photo: File
