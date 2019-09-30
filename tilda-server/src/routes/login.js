@@ -5,7 +5,7 @@ const { validate, asyncwrap } = require('../utils')
 
 module.exports = ({ sAuth }) => {
   /**
-   * @api {get} /login Login
+   * @api {post} /login Login
    * @apiName Login
    * @apiGroup Auth
    * 
