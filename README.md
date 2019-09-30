@@ -141,4 +141,43 @@ POST /api/user/:id/photo
 }
 ```
 
+### Body: Multipart From Data
+```bash
+{
+    photo: File
+}
+```
+
+### Response
+```bash
+status code 200
+{
+    id: String
+    name: String
+    email: String
+    pictURL: String
+    telp: String
+    progress: Array
+    callHistory: Array
+}
+```
+
+## Bot: Talk
+```bash
+POST /bot/talk
+```
+
 ### Body
+```bash
+{
+    message: String
+}
+```
+
+### Response
+```bash
+status code 200
+{
+    reply: String
+}
+```
