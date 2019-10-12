@@ -117,7 +117,7 @@ const BtnBotNav = ({ icon, name, focus = false }) => {
 
 const initState = {
   user: {
-    _id: 0,
+    _id: "0",
     auth: false,
     name: '',
     email: '',
@@ -147,10 +147,10 @@ class App extends Component {
       const { data } = await axios(`/users/${this.state.user._id}`, {
         method: 'GET',
         headers: {
-          'Authorization': this.state.user.token,
+          'Authorization': 'Bearer ' + this.state.user.token,
         }
       });
-      console.log(data);
+
       this.setState({ user: { ...this.state.user, ...data } });
     } catch (e) {
       console.error(e);
@@ -238,7 +238,7 @@ class App extends Component {
             login: this.login,
             register: this.register,
             authHeaders: {
-              'Authorization': user.token,
+              'Authorization': 'Bearer ' + user.token,
             }
           }}>
             <AppBar><span>Tilda</span>

@@ -60,15 +60,21 @@ const ProgressBoard = ({ doneDates = [] }) => {
   const days = 30;
   
   let boardDates = [];
+  let ndaysDone = 0
+  if (doneDates.length > 30) {
+    ndaysDone = doneDates.length % 30
+  }
+
   for (let i = 0; i < days; i++) {
-    boardDates.push(<DateCircle>{i+1}</DateCircle>);
+    boardDates.push(<DateCircle key={i}>{i+1}</DateCircle>);
   }
 
-  for (let j = 0; j < doneDates.length; j++) {
-    boardDates[doneDates[j]-1] = <DateCircle checked>{doneDates[j]}</DateCircle>
+  for (let j = 0; j < ndaysDone; j++) {
+    boardDates[doneDates[j]-1] = <DateCircle key={j} checked>{doneDates[j]}</DateCircle>
   }
 
-  const percent = Math.floor(doneDates.length/30*100);
+  let percent = 0
+  percent = Math.floor(ndaysDone/30*100);
 
   return <div style={{   boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.125)'}}>
     <Board>
@@ -81,7 +87,7 @@ const ProgressBoard = ({ doneDates = [] }) => {
         <span style={{ fontSize: '8px', color: '#777' }}>Progress</span>
       </Percentage>
       <Percentage>
-        <span style={{ fontSize: '15px', marginBottom: '2px' }}>{days-doneDates.length}</span>
+        <span style={{ fontSize: '15px', marginBottom: '2px' }}>{days-ndaysDone}</span>
         <span style={{ fontSize: '8px', color: '#777' }}>Days left</span>
       </Percentage>
     </BottomProgress>
@@ -102,7 +108,7 @@ export const Progress = class ProgressComp extends React.Component {
 
   state = {
     pictFile: null,
-    photoURL: '',
+    pictURL: '',
   }
 
   componentDidMount() {
@@ -116,16 +122,29 @@ export const Progress = class ProgressComp extends React.Component {
   onFileSelect = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
-    formData.append('photo', file);
+    formData.append('file', file);
 
     try {
-      const { data } = await axios(`/users/${this.context.user._id}/photo`, {
+      let res = await axios(`/storage/upload`, {
         method: 'POST',
         headers: this.context.authHeaders,
         data: formData,
       });
+
+      // update user
+      const payload =  {
+        ...this.context.user,
+        pictURL: res.data.filePath,
+      }
+      
+      res = await axios(`/users/${payload._id}`, {
+        method: 'PUT',
+        headers: this.context.authHeaders,
+        data: payload,
+      })
+
       this.setState({
-        photoURL: data.photoPath
+        pictURL: payload.pictURL
       });
     } catch (e) {
       console.error(e);
@@ -143,8 +162,17 @@ export const Progress = class ProgressComp extends React.Component {
     this.inputFile = ref;
   }
 
+  // duration in second
+  talkTimeLengthToString = (second) => {
+    const hh = Math.floor(second / 3600)
+    const mm = Math.floor((second / 60) % 60)
+    const ss = Math.floor(second % 60)
+
+    return `${hh < 10 ? '0'+hh : hh}:${mm < 10 ? '0'+mm : mm}:${ss < 10 ? '0'+ss : ss }`
+  }
+
   render() {
-    const { photoURL } = this.state;
+    const { pictURL } = this.state;
     const { user } = this.context;
     // list of user practice days
     const days = [];
@@ -155,12 +183,9 @@ export const Progress = class ProgressComp extends React.Component {
       talkLength += user.progress[i].duration;
     } 
 
-    const minute = Math.floor(talkLength/60);
-    const second = talkLength%60;
-
     return <Container>
       <Profile
-        pictURL={photoURL ? photoURL : user.pictURL}
+        pictURL={pictURL ? pictURL : user.pictURL}
         name={user.name}
         submitPict={this.submitPict}
         telp={user.telp}
@@ -178,7 +203,8 @@ export const Progress = class ProgressComp extends React.Component {
         boxShadow: 'rgba(0, 0, 0, 0.125) 0px 2px 2px',
       }}>
         <p style={{ margin: '0px', color: '#777' }}>Talk</p>
-        <h3 style={{ margin: '0px', color: '#222' }}>00:{minute < 10 ? `0${minute}` : minute}:{second < 10 ? `0${second}` : second}</h3>
+        {/* <h3 style={{ margin: '0px', color: '#222' }}>00:{minute < 10 ? `0${minute}` : minute}:{second < 10 ? `0${second}` : second}</h3> */}
+        <h3 style={{ margin: '0px', color: '#222' }}>{this.talkTimeLengthToString(talkLength)}</h3>
       </div>
     </Container>
   }
