@@ -5,4 +5,9 @@ module.exports = function(app) {
     target: 'http://localhost',
     changeOrigin: true,
   }));
+
+  app.use('/bot', proxy({
+    target: 'http://localhost',
+    changeOrigin: true,
+  }));
 };
