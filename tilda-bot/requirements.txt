@@ -1,4 +1,0 @@
-Flask
-uWSGI
-ChatterBot
-chatterbot-corpus
