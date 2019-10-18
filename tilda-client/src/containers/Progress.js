@@ -60,7 +60,7 @@ const ProgressBoard = ({ doneDates = [] }) => {
   const days = 30;
   
   let boardDates = [];
-  let ndaysDone = 0
+  let ndaysDone = doneDates.length
   if (doneDates.length > 30) {
     ndaysDone = doneDates.length % 30
   }
